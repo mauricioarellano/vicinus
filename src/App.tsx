@@ -6,11 +6,11 @@ import {
   ShowGuesser,
 } from "react-admin";
 import { Layout } from "./Layout";
-import { dataProvider } from "./dataProvider";
-import { authProvider } from "./authProvider";
+import { dataProvider, authProvider } from "./dataProvider.firebase";
 import { UserList } from "./UserList";
 import { UserEdit } from "./UserEdit";
 import { UserShow } from "./UserShow";
+
 
 export const App = () => (
   <Admin
