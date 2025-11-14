@@ -10,6 +10,7 @@ import { dataProvider, authProvider } from "./dataProvider.firebase";
 import { UserList } from "./UserList";
 import { UserEdit } from "./UserEdit";
 import { UserShow } from "./UserShow";
+import { UserCreate } from "./UserCreate";
 
 
 export const App = () => (
@@ -35,6 +36,7 @@ export const App = () => (
       list={UserList}
       edit={UserEdit}
       show={UserShow}
+      create={UserCreate}
     />
     <Resource
       name="todos"
