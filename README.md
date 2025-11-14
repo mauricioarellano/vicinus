@@ -6,6 +6,7 @@ Install the application dependencies by running:
 
 ```sh
 npm install
+npm install firebase --legacy-peer-deps
 ```
 
 ## Development
