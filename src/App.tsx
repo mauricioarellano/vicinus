@@ -10,6 +10,7 @@ import { dataProvider, authProvider } from "./dataProvider.firebase";
 import { AccountList, AccountShow, AccountEdit, AccountCreate } from "./resources/Accounts";
 import { PropertyCreate, PropertyEdit, PropertyList, PropertyShow } from "./resources/Properties";
 import { UserCreate, UserEdit, UserList, UserShow } from "./resources/Users";
+import { FeeCreate, FeeEdit, FeeList, FeeShow } from "./resources/Fees";
 
 export const App = () => (
   <Admin
@@ -46,9 +47,10 @@ export const App = () => (
     />
     <Resource
       name="fees"
-      list={ListGuesser}
-      edit={EditGuesser}
-      show={ShowGuesser}
+      list={FeeList}
+      edit={FeeEdit}
+      show={FeeShow}
+      create={FeeCreate}
     />
     <Resource
       name="visitors"

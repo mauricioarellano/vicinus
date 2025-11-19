@@ -7,7 +7,7 @@ export const UserList = () => (
           filters ={[
             <SearchInput source="q" alwaysOn />
           ]}
-          aside={<div style={{ width: 200, margin: '1em' }}>Custom sidebar content</div>}
+        //   aside={<div style={{ width: 200, margin: '1em' }}>Custom sidebar content</div>}
           >
         <DataTable>
             <DataTable.Col source="name" />
