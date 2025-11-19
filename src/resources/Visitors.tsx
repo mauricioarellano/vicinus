@@ -1,4 +1,4 @@
-import { Create, DataTable, DateField, DateInput, DateTimeInput, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
+import { Create, DataTable, DateField, DateTimeInput, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
 
 export const VisitorList = () => (
     <List>
