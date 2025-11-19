@@ -11,6 +11,7 @@ import { UserList } from "./UserList";
 import { UserEdit } from "./UserEdit";
 import { UserShow } from "./UserShow";
 import { UserCreate } from "./UserCreate";
+import { AccountList, AccountShow, AccountEdit, AccountCreate } from "./resources/Accounts";
 
 
 export const App = () => (
@@ -20,38 +21,57 @@ export const App = () => (
     authProvider={authProvider}
   >
     <Resource
-      name="posts"
+      name="accounts"
+      list={AccountList}
+      create={AccountCreate}
+      edit={AccountEdit}
+      show={AccountShow}
+    />
+    <Resource
+      name="properties"
       list={ListGuesser}
       edit={EditGuesser}
       show={ShowGuesser}
     />
     <Resource
-      name="comments"
+      name="residents"
       list={ListGuesser}
       edit={EditGuesser}
       show={ShowGuesser}
     />
     <Resource
       name="users"
-      list={UserList}
-      edit={UserEdit}
-      show={UserShow}
-      create={UserCreate}
-    />
-    <Resource
-      name="todos"
       list={ListGuesser}
       edit={EditGuesser}
       show={ShowGuesser}
     />
-
     <Resource
-      name="products"
-      list={() => <div>Product List</div>}
-      edit={() => <div>Edit Product</div>}
-      create={() => <div>Create Product</div>}
-      show={() => <div>Show Product</div>}
+      name="fees"
+      list={ListGuesser}
+      edit={EditGuesser}
+      show={ShowGuesser}
     />
+    <Resource
+      name="visitors"
+      list={ListGuesser}
+      edit={EditGuesser}
+      show={ShowGuesser}
+    />
+    <Resource
+      name="recurrent_visitors"
+      list={ListGuesser}
+      edit={EditGuesser}
+      show={ShowGuesser}
+    />
+    
+    {/* <Resource
+      name="users"
+      list={UserList}
+      edit={UserEdit}
+      show={UserShow}
+      create={UserCreate}
+    /> */}
+    
     
   </Admin>
 );
