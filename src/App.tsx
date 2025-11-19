@@ -6,7 +6,7 @@ import {
   ShowGuesser,
 } from "react-admin";
 import { Layout } from "./Layout";
-import { dataProvider, authProvider } from "./dataProvider.firebase";
+import { dataProvider, authProvider } from "./providers/dataProvider.firebase";
 import { AccountList, AccountShow, AccountEdit, AccountCreate } from "./resources/Accounts";
 import { PropertyCreate, PropertyEdit, PropertyList, PropertyShow } from "./resources/Properties";
 import { UserCreate, UserEdit, UserList, UserShow } from "./resources/Users";

@@ -1,5 +1,5 @@
 import { AuthProvider, HttpError } from "react-admin";
-import data from "./users.json";
+import data from "../users.json";
 
 /**
  * This authProvider is only for test purposes. Don't use it in production.
