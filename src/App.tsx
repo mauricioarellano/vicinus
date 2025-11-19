@@ -12,6 +12,7 @@ import { UserEdit } from "./UserEdit";
 import { UserShow } from "./UserShow";
 import { UserCreate } from "./UserCreate";
 import { AccountList, AccountShow, AccountEdit, AccountCreate } from "./resources/Accounts";
+import { PropertyCreate, PropertyEdit, PropertyList, PropertyShow } from "./resources/Properties";
 
 
 export const App = () => (
@@ -29,9 +30,10 @@ export const App = () => (
     />
     <Resource
       name="properties"
-      list={ListGuesser}
-      edit={EditGuesser}
-      show={ShowGuesser}
+      list={PropertyList}
+      edit={PropertyEdit}
+      show={PropertyShow}
+      create={PropertyCreate}
     />
     <Resource
       name="residents"
