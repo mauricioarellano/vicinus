@@ -7,13 +7,9 @@ import {
 } from "react-admin";
 import { Layout } from "./Layout";
 import { dataProvider, authProvider } from "./dataProvider.firebase";
-import { UserList } from "./UserList";
-import { UserEdit } from "./UserEdit";
-import { UserShow } from "./UserShow";
-import { UserCreate } from "./UserCreate";
 import { AccountList, AccountShow, AccountEdit, AccountCreate } from "./resources/Accounts";
 import { PropertyCreate, PropertyEdit, PropertyList, PropertyShow } from "./resources/Properties";
-
+import { UserCreate, UserEdit, UserList, UserShow } from "./resources/Users";
 
 export const App = () => (
   <Admin
@@ -43,9 +39,10 @@ export const App = () => (
     />
     <Resource
       name="users"
-      list={ListGuesser}
-      edit={EditGuesser}
-      show={ShowGuesser}
+      list={UserList}
+      edit={UserEdit}
+      show={UserShow}
+      create={UserCreate}
     />
     <Resource
       name="fees"
@@ -65,15 +62,6 @@ export const App = () => (
       edit={EditGuesser}
       show={ShowGuesser}
     />
-    
-    {/* <Resource
-      name="users"
-      list={UserList}
-      edit={UserEdit}
-      show={UserShow}
-      create={UserCreate}
-    /> */}
-    
-    
+
   </Admin>
 );
