@@ -12,6 +12,7 @@ import { PropertyCreate, PropertyEdit, PropertyList, PropertyShow } from "./reso
 import { UserCreate, UserEdit, UserList, UserShow } from "./resources/Users";
 import { FeeCreate, FeeEdit, FeeList, FeeShow } from "./resources/Fees";
 import { VisitorCreate, VisitorEdit, VisitorList, VisitorShow } from "./resources/Visitors";
+import { RecurrentVisitorCreate, RecurrentVisitorEdit, RecurrentVisitorList, RecurrentVisitorShow } from "./resources/RecurrentVisitors";
 
 export const App = () => (
   <Admin
@@ -62,9 +63,10 @@ export const App = () => (
     />
     <Resource
       name="recurrent_visitors"
-      list={ListGuesser}
-      edit={EditGuesser}
-      show={ShowGuesser}
+      list={RecurrentVisitorList}
+      edit={RecurrentVisitorEdit}
+      show={RecurrentVisitorShow}
+      create={RecurrentVisitorCreate}
     />
 
   </Admin>
