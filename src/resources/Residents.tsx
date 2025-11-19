@@ -1,4 +1,4 @@
-import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
+import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout } from 'react-admin';
 
 export const ResidentList = () => (
     <List>
