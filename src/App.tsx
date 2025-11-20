@@ -16,6 +16,14 @@ import { VisitorCreate, VisitorEdit, VisitorList, VisitorShow } from "./resource
 import { RecurrentVisitorCreate, RecurrentVisitorEdit, RecurrentVisitorList, RecurrentVisitorShow } from "./resources/RecurrentVisitors";
 import { ResidentCreate, ResidentEdit, ResidentList, ResidentShow } from "./resources/Residents";
 
+import CustomerIcon from "@mui/icons-material/People";
+import OrderIcon from "@mui/icons-material/AttachMoney";
+import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import CarCrashIcon from '@mui/icons-material/CarCrash';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
+
 export const App = () => (
   <Admin
     layout={Layout}
@@ -29,6 +37,7 @@ export const App = () => (
       create={AccountCreate}
       edit={AccountEdit}
       show={AccountShow}
+      icon={ApartmentIcon}
     />
     <Resource
       name="properties"
@@ -36,6 +45,7 @@ export const App = () => (
       edit={PropertyEdit}
       show={PropertyShow}
       create={PropertyCreate}
+      icon={MapsHomeWorkIcon}
     />
     <Resource
       name="residents"
@@ -43,6 +53,7 @@ export const App = () => (
       edit={ResidentEdit}
       show={ResidentShow}
       create={ResidentCreate}
+      icon={CustomerIcon}
     />
     <Resource
       name="users"
@@ -50,6 +61,7 @@ export const App = () => (
       edit={UserEdit}
       show={UserShow}
       create={UserCreate}
+      icon={ManageAccountsIcon}
     />
     <Resource
       name="fees"
@@ -57,6 +69,7 @@ export const App = () => (
       edit={FeeEdit}
       show={FeeShow}
       create={FeeCreate}
+      icon={OrderIcon}
     />
     <Resource
       name="visitors"
@@ -64,6 +77,7 @@ export const App = () => (
       edit={VisitorEdit}
       show={VisitorShow}
       create={VisitorCreate}
+      icon={CarCrashIcon}
     />
     <Resource
       name="recurrent_visitors"
@@ -71,6 +85,7 @@ export const App = () => (
       edit={RecurrentVisitorEdit}
       show={RecurrentVisitorShow}
       create={RecurrentVisitorCreate}
+      icon={PermContactCalendarIcon}
     />
 
   </Admin>
