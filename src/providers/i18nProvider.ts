@@ -1,7 +1,7 @@
 import { resolveBrowserLocale } from 'react-admin';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import englishMessages from 'ra-language-english';
-import spanishMessages from "@blackbox-vision/ra-language-spanish";
+import spanishMessages from "../i18n/sp";
 
 const translations = { en: englishMessages, sp: spanishMessages };
 

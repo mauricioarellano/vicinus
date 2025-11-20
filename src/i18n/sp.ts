@@ -1,6 +1,6 @@
 import spanishMessages from "@blackbox-vision/ra-language-spanish";
 
-const customSpanishMessages = {
+export default {
     ...spanishMessages,
     resources: {
         accounts: {
@@ -59,5 +59,3 @@ const customSpanishMessages = {
     },
     
 };
-
-export default customSpanishMessages;
