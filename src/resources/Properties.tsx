@@ -3,6 +3,9 @@ import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, Si
 export const PropertyList = () => (
     <List>
         <DataTable>
+            <DataTable.Col source="name" />
+            <DataTable.Col source="family_name" />
+            <DataTable.Col source="street" />
             <DataTable.Col source="int_number" />
             <DataTable.Col source="property_type" />
             <DataTable.Col source="account_id">
@@ -19,6 +22,9 @@ export const PropertyList = () => (
 export const PropertyShow = () => (
     <Show>
         <SimpleShowLayout>
+            <TextField source="name" />
+            <TextField source="family_name" />
+            <TextField source="street" />
             <TextField source="int_number" />
             <TextField source="property_type" />
             <ReferenceField source="account_id" reference="accounts" />
@@ -31,10 +37,13 @@ export const PropertyShow = () => (
 export const PropertyEdit = () => (
     <Edit>
         <SimpleForm>
+            <TextInput source="name" />
+            <TextInput source="family_name" />
+            <TextInput source="street" />
             <TextInput source="int_number" />
+            <TextInput source="property_type" />
             <ReferenceInput source="account_id" reference="accounts" />
             <ReferenceInput source="owner_user_id" reference="users" />
-            <TextInput source="property_type" />
         </SimpleForm>
     </Edit>
 );
@@ -42,10 +51,13 @@ export const PropertyEdit = () => (
 export const PropertyCreate = () => (
     <Create>
         <SimpleForm>
+            <TextInput source="name" />
+            <TextInput source="family_name" />
+            <TextInput source="street" />
             <TextInput source="int_number" />
+            <TextInput source="property_type" />
             <ReferenceInput source="account_id" reference="accounts" />
             <ReferenceInput source="owner_user_id" reference="users" />
-            <TextInput source="property_type" />
         </SimpleForm>
     </Create>
 );
