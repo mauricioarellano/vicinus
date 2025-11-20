@@ -6,6 +6,7 @@ import {
   ShowGuesser,
 } from "react-admin";
 import { Layout } from "./Layout";
+import { i18nProvider } from "./providers/i18nProvider";
 import { dataProvider, authProvider } from "./providers/dataProvider.firebase";
 import { AccountList, AccountShow, AccountEdit, AccountCreate } from "./resources/Accounts";
 import { PropertyCreate, PropertyEdit, PropertyList, PropertyShow } from "./resources/Properties";
@@ -20,6 +21,7 @@ export const App = () => (
     layout={Layout}
     dataProvider={dataProvider}
     authProvider={authProvider}
+    i18nProvider={i18nProvider}
   >
     <Resource
       name="accounts"
