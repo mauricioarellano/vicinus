@@ -1,4 +1,10 @@
-import { Create, DataTable, Edit, EmailField, List, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, UrlField } from 'react-admin';
+import { Create, DataTable, Edit, EmailField, List, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, UrlField, useRecordContext } from 'react-admin';
+import ApartmentIcon from "@mui/icons-material/Apartment";
+
+const PageTitle = () => {
+    const record = useRecordContext();
+    return <span>{record ? `${record.name}` : ''}</span>;
+}
 
 export const AccountList = () => (
     <List>
@@ -14,7 +20,7 @@ export const AccountList = () => (
 );
 
 export const AccountShow = () => (
-    <Show>
+    <Show title={<PageTitle />} >
         <SimpleShowLayout>
             <TextField source="name" />
             <TextField source="condo_type" />
@@ -32,7 +38,7 @@ export const AccountShow = () => (
 );
 
 export const AccountEdit = () => (
-    <Edit>
+    <Edit title={<PageTitle />} >
         <SimpleForm>
             <TextInput source="name" />
             <TextInput source="condo_type" />
@@ -66,3 +72,11 @@ export const AccountCreate = () => (
         </SimpleForm>
     </Create>
 );
+
+export default {
+  list: AccountList,
+  create: AccountCreate,
+  edit: AccountEdit,
+  show: AccountShow,
+  icon: ApartmentIcon,
+};

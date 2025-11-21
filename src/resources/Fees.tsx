@@ -1,4 +1,11 @@
-import { Create, DataTable, DateField, DateInput, Edit, List, NumberField, NumberInput, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
+import { Create, DataTable, DateField, DateInput, Edit, List, NumberField, NumberInput, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
+import OrderIcon from "@mui/icons-material/AttachMoney";
+
+const PageTitle = () => {
+    const record = useRecordContext();
+    const title = record ? `${record.period_year}` + `-` + `${record.period_month}` : '';
+    return <span>{title}</span>;
+}
 
 export const FeeList = () => (
     <List>
@@ -29,7 +36,7 @@ export const FeeList = () => (
 );
 
 export const FeeShow = () => (
-    <Show>
+    <Show title={<PageTitle />} >
         <SimpleShowLayout>
             <ReferenceField source="account_id" reference="accounts" />
             <ReferenceField source="property_id" reference="properties" />
@@ -46,7 +53,7 @@ export const FeeShow = () => (
 );
 
 export const FeeEdit = () => (
-    <Edit>
+    <Edit title={<PageTitle />} >
         <SimpleForm>
             <ReferenceInput source="account_id" reference="accounts" />
             <ReferenceInput source="property_id" reference="properties" />
@@ -78,3 +85,11 @@ export const FeeCreate = () => (
         </SimpleForm>
     </Create>
 );
+
+export default {
+  list: FeeList,
+  create: FeeCreate,
+  edit: FeeEdit,
+  show: FeeShow,
+  icon: OrderIcon,
+};

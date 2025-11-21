@@ -1,4 +1,11 @@
-import { Create, DataTable, DateField, DateTimeInput, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
+import { Create, DataTable, DateField, DateTimeInput, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
+import CarCrashIcon from '@mui/icons-material/CarCrash';
+
+
+const PageTitle = () => {
+    const record = useRecordContext();
+    return <span>{record ? `${record.name}` : ''}</span>;
+}
 
 export const VisitorList = () => (
     <List>
@@ -28,7 +35,7 @@ export const VisitorList = () => (
 );
 
 export const VisitorShow = () => (
-    <Show>
+    <Show title={<PageTitle />} >
         <SimpleShowLayout>
             <ReferenceField source="account_id" reference="accounts" />
             <ReferenceField source="property_id" reference="properties" />
@@ -46,7 +53,7 @@ export const VisitorShow = () => (
 );
 
 export const VisitorEdit = () => (
-    <Edit>
+    <Edit title={<PageTitle />} >
         <SimpleForm>
             <ReferenceInput source="account_id" reference="accounts" />
             <ReferenceInput source="property_id" reference="properties" />
@@ -79,3 +86,11 @@ export const VisitorCreate = () => (
         </SimpleForm>
     </Create>
 );
+
+export default {
+  list: VisitorList,
+  edit: VisitorEdit,
+  create: VisitorCreate,
+  show: VisitorShow,
+  icon: CarCrashIcon,
+};

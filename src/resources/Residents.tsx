@@ -1,4 +1,5 @@
 import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout } from 'react-admin';
+import CustomerIcon from "@mui/icons-material/People";
 
 export const ResidentList = () => (
     <List>
@@ -46,3 +47,11 @@ export const ResidentCreate = () => (
         </SimpleForm>
     </Create>
 );
+
+export default {
+  list: ResidentList,
+  create: ResidentCreate,
+  edit: ResidentEdit,
+  show: ResidentShow,
+  icon: CustomerIcon,
+};

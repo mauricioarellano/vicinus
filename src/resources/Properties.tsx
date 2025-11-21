@@ -1,4 +1,10 @@
-import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
+import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
+import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
+
+const PageTitle = () => {
+    const record = useRecordContext();
+    return <span>{record ? `${record.name}` : ''}</span>;
+}
 
 export const PropertyList = () => (
     <List>
@@ -20,7 +26,7 @@ export const PropertyList = () => (
 );
 
 export const PropertyShow = () => (
-    <Show>
+    <Show title={<PageTitle />} >
         <SimpleShowLayout>
             <TextField source="name" />
             <TextField source="family_name" />
@@ -35,7 +41,7 @@ export const PropertyShow = () => (
 );
 
 export const PropertyEdit = () => (
-    <Edit>
+    <Edit title={<PageTitle />} >
         <SimpleForm>
             <TextInput source="name" />
             <TextInput source="family_name" />
@@ -61,3 +67,11 @@ export const PropertyCreate = () => (
         </SimpleForm>
     </Create>
 );
+
+export default {
+  list: PropertyList,
+  create: PropertyCreate,
+  edit: PropertyEdit,
+  show: PropertyShow,
+  icon: MapsHomeWorkIcon,
+};
