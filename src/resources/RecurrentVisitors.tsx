@@ -1,4 +1,10 @@
-import { ArrayInput, Create, DataTable, DateField, DateInput, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleFormIterator, SimpleShowLayout, TextArrayField, TextField, TextInput } from 'react-admin';
+import { ArrayInput, Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleFormIterator, SimpleShowLayout, TextArrayField, TextField, TextInput, useRecordContext } from 'react-admin';
+import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
+
+const PageTitle = () => {
+    const record = useRecordContext();
+    return <span>{record ? `${record.name}` : ''}</span>;
+}
 
 export const RecurrentVisitorList = () => (
     <List>
@@ -24,7 +30,7 @@ export const RecurrentVisitorList = () => (
 );
 
 export const RecurrentVisitorShow = () => (
-    <Show>
+    <Show title={<PageTitle />} >
         <SimpleShowLayout>
             <ReferenceField source="property_id" reference="properties" />
             <ReferenceField source="account_id" reference="accounts" />
@@ -41,7 +47,7 @@ export const RecurrentVisitorShow = () => (
 );
 
 export const RecurrentVisitorEdit = () => (
-    <Edit>
+    <Edit title={<PageTitle />} >
         <SimpleForm>
             <ReferenceInput source="account_id" reference="accounts" />
             <ReferenceInput source="property_id" reference="properties" />
@@ -83,3 +89,11 @@ export const RecurrentVisitorCreate = () => (
         </SimpleForm>
     </Create>
 );
+
+export default {
+    list: RecurrentVisitorList,
+    edit: RecurrentVisitorEdit,
+    show: RecurrentVisitorShow,
+    create: RecurrentVisitorCreate,
+    icon: PermContactCalendarIcon,
+};

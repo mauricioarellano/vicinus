@@ -1,4 +1,10 @@
-import { Create, DataTable, DateField, Edit, EmailField, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
+import { Create, DataTable, DateField, Edit, EmailField, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+
+const PageTitle = () => {
+    const record = useRecordContext();
+    return <span>{record ? `${record.name}` : ''}</span>;
+}
 
 export const UserList = () => (
     <List>
@@ -27,7 +33,7 @@ export const UserList = () => (
 );
 
 export const UserShow = () => (
-    <Show>
+    <Show title={<PageTitle />}>
         <SimpleShowLayout>
             <TextField source="name" />
             <TextField source="username" />
@@ -53,7 +59,7 @@ export const UserShow = () => (
 );
 
 export const UserEdit = () => (
-    <Edit>
+    <Edit title={<PageTitle />} >
         <SimpleForm>
             <TextInput source="name" />
             <TextInput source="username" />
@@ -106,3 +112,12 @@ export const UserCreate = () => (
     </Create>
 );
 
+
+
+export default {
+  list: UserList,
+  edit: UserEdit,
+  create: UserCreate,
+  show: UserShow,
+  icon: ManageAccountsIcon,
+};
