@@ -1,116 +1,149 @@
 import { Create, DataTable, DateField, Edit, EmailField, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import { usePermissions } from '../hooks/usePermissions';
 
 const PageTitle = () => {
     const record = useRecordContext();
     return <span>{record ? `${record.name}` : ''}</span>;
 }
 
-export const UserList = () => (
-    <List>
-        <DataTable>
-            <DataTable.Col source="name" />
-            <DataTable.Col source="account_id">
+export const UserList = () => {
+    const { canAccess } = usePermissions();
+    
+    if (!canAccess('users', 'list')) {
+        return <div>You don't have permission to view users.</div>;
+    }
+    
+    return (
+        <List>
+            <DataTable>
+                <DataTable.Col source="name" />
+                <DataTable.Col source="account_id">
+                    <ReferenceField source="account_id" reference="accounts" />
+                </DataTable.Col>
+                <DataTable.Col source="username" />
+                
+                <DataTable.Col source="address.street" />
+                
+                <DataTable.Col source="phone" />
+                <DataTable.Col source="email">
+                    <EmailField source="email" />
+                </DataTable.Col>
+                <DataTable.Col source="website" />
+                
+                <DataTable.Col source="company.name" />
+                <DataTable.Col source="photo">
+                    <DateField source="photo" />
+                </DataTable.Col>
+                
+            </DataTable>
+        </List>
+    );
+};
+
+export const UserShow = () => {
+    const { canAccess } = usePermissions();
+    
+    if (!canAccess('users', 'show')) {
+        return <div>You don't have permission to view this user.</div>;
+    }
+    
+    return (
+        <Show title={<PageTitle />}>
+            <SimpleShowLayout>
+                <TextField source="name" />
+                <TextField source="username" />
                 <ReferenceField source="account_id" reference="accounts" />
-            </DataTable.Col>
-            <DataTable.Col source="username" />
-            
-            <DataTable.Col source="address.street" />
-            
-            <DataTable.Col source="phone" />
-            <DataTable.Col source="email">
+                
+                <TextField source="phone" />
                 <EmailField source="email" />
-            </DataTable.Col>
-            <DataTable.Col source="website" />
-            
-            <DataTable.Col source="company.name" />
-            <DataTable.Col source="photo">
+                <TextField source="website" />
+               
+                <TextField source="company.name" />
+
+                <TextField source="address.street" />
+                <TextField source="address.number" />
+                <TextField source="address.neighborhood" />
+                <TextField source="address.city" />
+                <TextField source="address.state" />
+                <TextField source="address.country" />
+                <TextField source="address.zip_code" />
                 <DateField source="photo" />
-            </DataTable.Col>
-            
-        </DataTable>
-    </List>
-);
+                
+            </SimpleShowLayout>
+        </Show>
+    );
+};
 
-export const UserShow = () => (
-    <Show title={<PageTitle />}>
-        <SimpleShowLayout>
-            <TextField source="name" />
-            <TextField source="username" />
-            <ReferenceField source="account_id" reference="accounts" />
-            
-            <TextField source="phone" />
-            <EmailField source="email" />
-            <TextField source="website" />
-           
-            <TextField source="company.name" />
+export const UserEdit = () => {
+    const { canAccess } = usePermissions();
+    
+    if (!canAccess('users', 'edit')) {
+        return <div>You don't have permission to edit users.</div>;
+    }
+    
+    return (
+        <Edit title={<PageTitle />} >
+            <SimpleForm>
+                <TextInput source="name" />
+                <TextInput source="username" />
+                <ReferenceInput source="account_id" reference="accounts" />
+                
+                <TextInput source="phone" />
+                <TextInput source="email" />
+                <TextInput source="website" />
+               
+                <TextInput source="company.name" />
 
-            <TextField source="address.street" />
-            <TextField source="address.number" />
-            <TextField source="address.neighborhood" />
-            <TextField source="address.city" />
-            <TextField source="address.state" />
-            <TextField source="address.country" />
-            <TextField source="address.zip_code" />
-            <DateField source="photo" />
-            
-        </SimpleShowLayout>
-    </Show>
-);
+                <TextInput source="address.street" />
+                <TextInput source="address.number" />
+                <TextInput source="address.neighborhood" />
+                <TextInput source="address.city" />
+                <TextInput source="address.state" />
+                <TextInput source="address.country" />
+                <TextInput source="address.zip_code" />
+                <TextInput source="photo" />
 
-export const UserEdit = () => (
-    <Edit title={<PageTitle />} >
-        <SimpleForm>
-            <TextInput source="name" />
-            <TextInput source="username" />
-            <ReferenceInput source="account_id" reference="accounts" />
-            
-            <TextInput source="phone" />
-            <TextInput source="email" />
-            <TextInput source="website" />
-           
-            <TextInput source="company.name" />
+                
+            </SimpleForm>
+        </Edit>
+    );
+};
 
-            <TextInput source="address.street" />
-            <TextInput source="address.number" />
-            <TextInput source="address.neighborhood" />
-            <TextInput source="address.city" />
-            <TextInput source="address.state" />
-            <TextInput source="address.country" />
-            <TextInput source="address.zip_code" />
-            <TextInput source="photo" />
+export const UserCreate = () => {
+    const { canAccess } = usePermissions();
+    
+    if (!canAccess('users', 'create')) {
+        return <div>You don't have permission to create users.</div>;
+    }
+    
+    return (
+        <Create>
+            <SimpleForm>
+                <TextInput source="name" />
+                <TextInput source="username" />
+                <ReferenceInput source="account_id" reference="accounts" />
+                
+                <TextInput source="phone" />
+                <TextInput source="email" />
+                <TextInput source="website" />
+               
+                <TextInput source="company.name" />
 
-            
-        </SimpleForm>
-    </Edit>
-);
+                <TextInput source="address.street" />
+                <TextInput source="address.number" />
+                <TextInput source="address.neighborhood" />
+                <TextInput source="address.city" />
+                <TextInput source="address.state" />
+                <TextInput source="address.country" />
+                <TextInput source="address.zip_code" />
+                <TextInput source="photo" />
 
-export const UserCreate = () => (
-    <Create>
-        <SimpleForm>
-            <TextInput source="name" />
-            <TextInput source="username" />
-            <ReferenceInput source="account_id" reference="accounts" />
-            
-            <TextInput source="phone" />
-            <TextInput source="email" />
-            <TextInput source="website" />
-           
-            <TextInput source="company.name" />
-
-            <TextInput source="address.street" />
-            <TextInput source="address.number" />
-            <TextInput source="address.neighborhood" />
-            <TextInput source="address.city" />
-            <TextInput source="address.state" />
-            <TextInput source="address.country" />
-            <TextInput source="address.zip_code" />
-            <TextInput source="photo" />
-
-            
-        </SimpleForm>
-    </Create>
-);
+                
+            </SimpleForm>
+        </Create>
+    );
+};
 
 
 

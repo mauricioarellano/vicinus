@@ -1,10 +1,4 @@
-import {
-  Admin,
-  Resource,
-  ListGuesser,
-  EditGuesser,
-  ShowGuesser,
-} from "react-admin";
+import { Admin, Resource } from "react-admin";
 import { Layout } from "./Layout";
 import { i18nProvider } from "./providers/i18nProvider";
 import { dataProvider, authProvider } from "./providers/dataProvider.firebase";
@@ -30,6 +24,5 @@ export const App = () => (
     <Resource name="fees" {...fees} />
     <Resource name="visitors" {...visitors} />
     <Resource name="recurrent_visitors" {...recurrent_visitors} />
-
   </Admin>
 );
