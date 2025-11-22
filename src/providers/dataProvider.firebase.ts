@@ -1,13 +1,13 @@
 import {
   FirebaseAuthProvider,
   FirebaseDataProvider,
-  RAFirebaseOptions
-} from 'react-admin-firebase';
-import { initializeApp, getApps } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import { AuthProvider } from 'react-admin';
-import { Role, Permissions, DEFAULT_ROLE } from '../types/permissions';
+  RAFirebaseOptions,
+} from "react-admin-firebase";
+import { initializeApp, getApps } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { AuthProvider } from "react-admin";
+import { Role, Permissions, DEFAULT_ROLE } from "../types/permissions";
 
 const config = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -43,27 +43,8 @@ const baseAuthProvider = FirebaseAuthProvider(config, options);
 export const authProvider: AuthProvider = {
   ...baseAuthProvider,
 
-  // Override checkAuth to explicitly check Firebase auth state
-  checkAuth: async () => {
-    try {
-      // Wait for auth state to be ready
-      await auth.authStateReady();
-      const user = auth.currentUser;
-      
-      console.log('checkAuth - user:', user ? user.uid : 'null');
-      
-      if (!user) {
-        console.log('checkAuth - rejecting: no user');
-        return Promise.reject({ message: 'Not authenticated', status: 401 });
-      }
-      
-      console.log('checkAuth - resolving: user authenticated');
-      return Promise.resolve();
-    } catch (error) {
-      console.error('Auth check failed:', error);
-      return Promise.reject(error);
-    }
-  },
+  // Don't override checkAuth - let base FirebaseAuthProvider handle it properly
+  // It already handles Firebase Auth state correctly
 
   // Override getPermissions to fetch role from Firestore
   getPermissions: async () => {
@@ -74,7 +55,7 @@ export const authProvider: AuthProvider = {
       }
 
       // Fetch user document from Firestore to get role
-      const userDocRef = doc(db, 'users', user.uid);
+      const userDocRef = doc(db, "users", user.uid);
       const userDoc = await getDoc(userDocRef);
 
       if (userDoc.exists()) {
@@ -98,7 +79,7 @@ export const authProvider: AuthProvider = {
         permissions: [],
       } as Permissions);
     } catch (error) {
-      console.error('Error fetching permissions:', error);
+      console.error("Error fetching permissions:", error);
       return Promise.resolve({
         role: DEFAULT_ROLE,
         permissions: [],
@@ -111,18 +92,22 @@ export const authProvider: AuthProvider = {
     try {
       const user = auth.currentUser;
       if (!user) {
-        return Promise.resolve(null);
+        // If no user, return default identity (shouldn't happen if checkAuth works)
+        return Promise.resolve({
+          id: "anonymous",
+          fullName: "Anonymous User",
+        });
       }
 
       // Fetch user document from Firestore
-      const userDocRef = doc(db, 'users', user.uid);
+      const userDocRef = doc(db, "users", user.uid);
       const userDoc = await getDoc(userDocRef);
 
       if (userDoc.exists()) {
         const userData = userDoc.data();
         return Promise.resolve({
           id: user.uid,
-          fullName: userData.name || user.displayName || user.email || 'User',
+          fullName: userData.name || user.displayName || user.email || "User",
           avatar: user.photoURL || undefined,
           role: userData.role || DEFAULT_ROLE,
           account_id: userData.account_id,
@@ -132,13 +117,17 @@ export const authProvider: AuthProvider = {
 
       return Promise.resolve({
         id: user.uid,
-        fullName: user.displayName || user.email || 'User',
+        fullName: user.displayName || user.email || "User",
         avatar: user.photoURL || undefined,
         role: DEFAULT_ROLE,
       });
     } catch (error) {
-      console.error('Error fetching identity:', error);
-      return Promise.resolve(null);
+      console.error("Error fetching identity:", error);
+      // Return default identity on error
+      return Promise.resolve({
+        id: "error",
+        fullName: "Error loading user",
+      });
     }
   },
 };
