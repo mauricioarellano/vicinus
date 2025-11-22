@@ -43,6 +43,28 @@ const baseAuthProvider = FirebaseAuthProvider(config, options);
 export const authProvider: AuthProvider = {
   ...baseAuthProvider,
 
+  // Override checkAuth to explicitly check Firebase auth state
+  checkAuth: async () => {
+    try {
+      // Wait for auth state to be ready
+      await auth.authStateReady();
+      const user = auth.currentUser;
+      
+      console.log('checkAuth - user:', user ? user.uid : 'null');
+      
+      if (!user) {
+        console.log('checkAuth - rejecting: no user');
+        return Promise.reject({ message: 'Not authenticated', status: 401 });
+      }
+      
+      console.log('checkAuth - resolving: user authenticated');
+      return Promise.resolve();
+    } catch (error) {
+      console.error('Auth check failed:', error);
+      return Promise.reject(error);
+    }
+  },
+
   // Override getPermissions to fetch role from Firestore
   getPermissions: async () => {
     try {
