@@ -1,5 +1,5 @@
 import { Create, DataTable, DateField, DateInput, Edit, List, NumberField, NumberInput, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
-import OrderIcon from "@mui/icons-material/AttachMoney";
+import PaymentsIcon from '@mui/icons-material/Payments';
 
 const PageTitle = () => {
     const record = useRecordContext();
@@ -91,5 +91,5 @@ export default {
   create: FeeCreate,
   edit: FeeEdit,
   show: FeeShow,
-  icon: OrderIcon,
+  icon: PaymentsIcon,
 };
