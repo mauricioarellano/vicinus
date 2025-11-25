@@ -35,6 +35,13 @@ export default {
                 user_id: 'Usuario',
             },
         },
+        fee_amounts: {
+            name: 'Monto de cuota |||| Montos de cuota',
+            fields: {
+                amount: 'Cantidad',
+                account_id: 'Cuenta',
+            },
+        },
         properties: {
             name: 'Propiedad |||| Propiedades',
             fields: {
