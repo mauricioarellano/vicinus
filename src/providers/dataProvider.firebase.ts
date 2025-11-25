@@ -4,7 +4,7 @@ import {
   RAFirebaseOptions,
 } from "react-admin-firebase";
 import { initializeApp, getApps } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { AuthProvider } from "react-admin";
 import { Role, Permissions, DEFAULT_ROLE } from "../types/permissions";
@@ -39,6 +39,74 @@ const options: RAFirebaseOptions = {
 // Base Firebase auth provider
 const baseAuthProvider = FirebaseAuthProvider(config, options);
 
+// Helper function to wait for authenticated user
+// Handles race condition where getPermissions is called before auth state is fully ready
+const waitForAuthenticatedUser = (): Promise<User | null> => {
+  return new Promise((resolve) => {
+    // Check if user already exists (fast path)
+    if (auth.currentUser) {
+      resolve(auth.currentUser);
+      return;
+    }
+
+    // Wait for auth state to be ready
+    auth
+      .authStateReady()
+      .then(() => {
+        // Check again after auth state is ready (user might be set during ready check)
+        if (auth.currentUser) {
+          resolve(auth.currentUser);
+          return;
+        }
+
+        // Add a small delay to catch cases where user is set immediately after authStateReady
+        // This handles race conditions during login
+        setTimeout(() => {
+          if (auth.currentUser) {
+            resolve(auth.currentUser);
+            return;
+          }
+
+          // If still no user, set up listener for auth state changes
+          // This catches the case where user logs in after we've already checked
+          let hasResolved = false;
+          const unsubscribe = onAuthStateChanged(auth, (user) => {
+            // Resolve only once, and only if we get a user (not null)
+            // onAuthStateChanged fires immediately, so we check for user
+            if (!hasResolved && user) {
+              hasResolved = true;
+              unsubscribe();
+              resolve(user);
+            } else if (!hasResolved) {
+              // If we get null immediately, it means no user is authenticated
+              // Set a timeout to resolve after a brief wait in case login is in progress
+              setTimeout(() => {
+                if (!hasResolved) {
+                  hasResolved = true;
+                  unsubscribe();
+                  resolve(auth.currentUser);
+                }
+              }, 1000);
+            }
+          });
+
+          // Final timeout after 2 seconds total to prevent hanging
+          setTimeout(() => {
+            if (!hasResolved) {
+              hasResolved = true;
+              unsubscribe();
+              resolve(auth.currentUser);
+            }
+          }, 2000);
+        }, 100); // Small delay to catch immediate post-ready user assignment
+      })
+      .catch(() => {
+        // If authStateReady fails, return current user
+        resolve(auth.currentUser);
+      });
+  });
+};
+
 // Custom RBAC-enabled auth provider
 export const authProvider: AuthProvider = {
   ...baseAuthProvider,
@@ -49,9 +117,8 @@ export const authProvider: AuthProvider = {
   // Override getPermissions to fetch role from Firestore
   getPermissions: async () => {
     try {
-      // Wait for Firebase Auth to be ready before checking currentUser
-      await auth.authStateReady();
-      const user = auth.currentUser;
+      // Wait for authenticated user (handles race condition)
+      const user = await waitForAuthenticatedUser();
       if (!user) {
         return Promise.resolve(null);
       }
@@ -92,9 +159,8 @@ export const authProvider: AuthProvider = {
   // Override getIdentity to include role information from Firestore
   getIdentity: async () => {
     try {
-      // Wait for Firebase Auth to be ready before checking currentUser
-      await auth.authStateReady();
-      const user = auth.currentUser;
+      // Wait for authenticated user (handles race condition)
+      const user = await waitForAuthenticatedUser();
       if (!user) {
         // If no user, return default identity (shouldn't happen if checkAuth works)
         return Promise.resolve({
