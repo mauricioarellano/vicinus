@@ -45,65 +45,78 @@ const waitForAuthenticatedUser = (): Promise<User | null> => {
   return new Promise((resolve) => {
     // Check if user already exists (fast path)
     if (auth.currentUser) {
+      console.log("waitForAuthenticatedUser: User already exists, fast path");
       resolve(auth.currentUser);
       return;
     }
 
-    // Wait for auth state to be ready
-    auth
-      .authStateReady()
-      .then(() => {
-        // Check again after auth state is ready (user might be set during ready check)
-        if (auth.currentUser) {
-          resolve(auth.currentUser);
-          return;
-        }
+    console.log(
+      "waitForAuthenticatedUser: No user yet, waiting for auth state...",
+    );
 
-        // Add a small delay to catch cases where user is set immediately after authStateReady
-        // This handles race conditions during login
-        setTimeout(() => {
+    // Use onAuthStateChanged to wait for auth state
+    // This fires immediately with current state, then on changes
+    let hasResolved = false;
+    let initialCheck = true;
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log(
+        "waitForAuthenticatedUser: onAuthStateChanged fired, user:",
+        user ? user.uid : "null",
+        "initialCheck:",
+        initialCheck,
+      );
+
+      if (hasResolved) return;
+
+      // First, ensure auth state is ready
+      if (initialCheck) {
+        initialCheck = false;
+        try {
+          await auth.authStateReady();
+          // Re-check user after auth state is ready
           if (auth.currentUser) {
+            hasResolved = true;
+            unsubscribe();
+            console.log(
+              "waitForAuthenticatedUser: User found after authStateReady:",
+              auth.currentUser.uid,
+            );
             resolve(auth.currentUser);
             return;
           }
+        } catch (error) {
+          console.error(
+            "waitForAuthenticatedUser: Error in authStateReady:",
+            error,
+          );
+        }
+      }
 
-          // If still no user, set up listener for auth state changes
-          // This catches the case where user logs in after we've already checked
-          let hasResolved = false;
-          const unsubscribe = onAuthStateChanged(auth, (user) => {
-            // Resolve only once, and only if we get a user (not null)
-            // onAuthStateChanged fires immediately, so we check for user
-            if (!hasResolved && user) {
-              hasResolved = true;
-              unsubscribe();
-              resolve(user);
-            } else if (!hasResolved) {
-              // If we get null immediately, it means no user is authenticated
-              // Set a timeout to resolve after a brief wait in case login is in progress
-              setTimeout(() => {
-                if (!hasResolved) {
-                  hasResolved = true;
-                  unsubscribe();
-                  resolve(auth.currentUser);
-                }
-              }, 1000);
-            }
-          });
+      // If we get a user (either from initial check or state change), resolve
+      if (user) {
+        hasResolved = true;
+        unsubscribe();
+        console.log("waitForAuthenticatedUser: Resolving with user:", user.uid);
+        resolve(user);
+        return;
+      }
 
-          // Final timeout after 2 seconds total to prevent hanging
-          setTimeout(() => {
-            if (!hasResolved) {
-              hasResolved = true;
-              unsubscribe();
-              resolve(auth.currentUser);
-            }
-          }, 2000);
-        }, 100); // Small delay to catch immediate post-ready user assignment
-      })
-      .catch(() => {
-        // If authStateReady fails, return current user
+      // If we get null, user might still be logging in
+      // Continue waiting for the next auth state change
+    });
+
+    // Timeout after 5 seconds to prevent hanging
+    setTimeout(() => {
+      if (!hasResolved) {
+        hasResolved = true;
+        unsubscribe();
+        console.log(
+          "waitForAuthenticatedUser: Timeout after 5s, resolving with:",
+          auth.currentUser ? auth.currentUser.uid : "null",
+        );
         resolve(auth.currentUser);
-      });
+      }
+    }, 5000);
   });
 };
 
@@ -120,8 +133,14 @@ export const authProvider: AuthProvider = {
       // Wait for authenticated user (handles race condition)
       const user = await waitForAuthenticatedUser();
       if (!user) {
+        console.log("getPermissions: No authenticated user, returning null");
         return Promise.resolve(null);
       }
+
+      console.log(
+        "getPermissions: User authenticated, fetching role for:",
+        user.uid,
+      );
 
       // Fetch user document from Firestore to get role
       const userDocRef = doc(db, "users", user.uid);
@@ -133,6 +152,8 @@ export const authProvider: AuthProvider = {
         const permissions = userData.permissions || [];
         const account_id = userData.account_id;
 
+        console.log("getPermissions: Found user document, role:", role);
+
         // Return role and permissions
         const perms: Permissions = {
           role,
@@ -141,6 +162,10 @@ export const authProvider: AuthProvider = {
         };
         return Promise.resolve(perms);
       }
+
+      console.log(
+        "getPermissions: User document not found, returning default role",
+      );
 
       // If user document doesn't exist, return default role
       return Promise.resolve({

@@ -8,6 +8,13 @@ export const usePermissions = () => {
     | null
     | undefined;
 
+  // Log for debugging
+  if (typedPermissions) {
+    console.log("usePermissions: Permissions loaded:", typedPermissions);
+  } else {
+    console.log("usePermissions: Permissions not loaded yet (null/undefined)");
+  }
+
   const hasRole = (role: Role | Role[]): boolean => {
     if (!typedPermissions?.role) return false;
     const roles = Array.isArray(role) ? role : [role];
@@ -26,8 +33,15 @@ export const usePermissions = () => {
   };
 
   const canAccess = (resource: string, action: ResourceAction): boolean => {
-    const role = typedPermissions?.role || "viewer";
-    const userAccountId = typedPermissions?.account_id;
+    // If permissions are not loaded yet (undefined or null), deny access
+    // This prevents defaulting to viewer role before permissions are fetched
+    if (!typedPermissions || !typedPermissions.role) {
+      console.log("canAccess: Permissions not loaded or role is undefined, denying access");
+      return false;
+    }
+
+    const role = typedPermissions.role;
+    const userAccountId = typedPermissions.account_id;
 
     // Define access matrix for each resource/action combination
     const accessRules: Record<string, Record<ResourceAction, Role[]>> = {
