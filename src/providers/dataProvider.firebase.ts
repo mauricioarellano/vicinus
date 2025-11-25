@@ -49,6 +49,8 @@ export const authProvider: AuthProvider = {
   // Override getPermissions to fetch role from Firestore
   getPermissions: async () => {
     try {
+      // Wait for Firebase Auth to be ready before checking currentUser
+      await auth.authStateReady();
       const user = auth.currentUser;
       if (!user) {
         return Promise.resolve(null);
@@ -90,6 +92,8 @@ export const authProvider: AuthProvider = {
   // Override getIdentity to include role information from Firestore
   getIdentity: async () => {
     try {
+      // Wait for Firebase Auth to be ready before checking currentUser
+      await auth.authStateReady();
       const user = auth.currentUser;
       if (!user) {
         // If no user, return default identity (shouldn't happen if checkAuth works)
