@@ -24,9 +24,7 @@ export const UserList = () => (
             <DataTable.Col source="website" />
             
             <DataTable.Col source="company.name" />
-            <DataTable.Col source="photo">
-                <DateField source="photo" />
-            </DataTable.Col>
+            <DataTable.Col source="photo" />
             
         </DataTable>
     </List>
@@ -52,7 +50,7 @@ export const UserShow = () => (
             <TextField source="address.state" />
             <TextField source="address.country" />
             <TextField source="address.zip_code" />
-            <DateField source="photo" />
+            <TextField source="photo" />
             
         </SimpleShowLayout>
     </Show>
