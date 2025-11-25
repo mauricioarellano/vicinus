@@ -1,4 +1,4 @@
-import { Create, DataTable, DateField, Edit, EmailField, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
+import { Create, DataTable, Edit, EmailField, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 const PageTitle = () => {
