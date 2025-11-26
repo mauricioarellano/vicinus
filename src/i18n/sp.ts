@@ -77,6 +77,18 @@ export default {
                 street: 'Calle',
             },
         },
+        property_types: {
+            apartment: 'Departamento',
+            house: 'Casa',
+            condo: 'Condominio',
+            building: 'Edificio',
+            duplex: 'Dúplex',
+            studio: 'Estudio',
+            loft: 'Ático',
+            villa: 'Villa',
+            cottage: 'Cabaña',
+            bungalow: 'Bungaló',
+        },
         residents: {
             name: 'Residente |||| Residentes',
             fields: {

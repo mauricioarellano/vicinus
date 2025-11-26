@@ -1,7 +1,13 @@
-import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, required, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
+import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, required, SelectField, SelectInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext, useTranslate } from 'react-admin';
 import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import { usePermissions } from '../hooks/usePermissions';
 import { PermissionsLoading } from '../components/PermissionsLoading';
+
+
+const property_types = [
+    { id: 'apartment', name: 'Departamento' },
+    { id: 'house', name: 'Casa' },
+];
 
 const PageTitle = () => {
     const record = useRecordContext();
@@ -11,6 +17,8 @@ const PageTitle = () => {
 export const PropertyList = () => {
     const { canAccess } = usePermissions();
     const hasAccess = canAccess('properties', 'list');
+    const translate = useTranslate();
+
     
     if (hasAccess === undefined) {
         return <PermissionsLoading />;
@@ -26,14 +34,12 @@ export const PropertyList = () => {
                 <DataTable.Col source="family_name" />
                 <DataTable.Col source="street" />
                 <DataTable.Col source="int_number" />
-                <DataTable.Col source="property_type" />
+                <DataTable.Col source="property_type" 
+                               render={record => translate(`resources.property_types.${record.property_type}`)}
+                />
                 <DataTable.Col source="account_id">
                     <ReferenceField source="account_id" reference="accounts" />
                 </DataTable.Col>
-                <DataTable.Col source="owner_user_id">
-                    <ReferenceField source="owner_user_id" reference="users" />
-                </DataTable.Col>
-                
             </DataTable>
         </List>
     );
@@ -57,7 +63,9 @@ export const PropertyShow = () => {
                 <TextField source="family_name" />
                 <TextField source="street" />
                 <TextField source="int_number" />
-                <TextField source="property_type" />
+                <SelectField source="property_type" 
+                             choices={property_types}
+                />
                 <ReferenceField source="account_id" reference="accounts" />
                 <ReferenceField source="owner_user_id" reference="users" />
                 
@@ -78,11 +86,14 @@ export const PropertyEdit = () => {
     }
     
     return (
-        <Edit title={<PageTitle />} >
+        <Edit title={<PageTitle />} sanitizeEmptyValues={true} >
             <SimpleForm>
                 <ReferenceInput source="account_id" reference="accounts" />
                 <TextInput source="name" validate={[required("ra.validation.name")]} />
-                <TextInput source="property_type"  validate={[required("ra.validation.property_type")]}/>
+                <SelectInput source="property_type"
+                    choices={property_types}
+                    validate={[required("ra.validation.property_type")]}
+                />
                 <TextInput source="family_name" />
                 <TextInput source="street" />
                 <TextInput source="int_number" />
@@ -105,10 +116,13 @@ export const PropertyCreate = () => {
     
     return (
         <Create>
-            <SimpleForm>
+            <SimpleForm sanitizeEmptyValues={true} >
                 <ReferenceInput source="account_id" reference="accounts" />
                 <TextInput source="name" validate={[required("ra.validation.name")]} />
-                <TextInput source="property_type"  validate={[required("ra.validation.property_type")]}/>
+                <SelectInput source="property_type"
+                    choices={property_types}
+                    validate={[required("ra.validation.property_type")]}
+                />
                 <TextInput source="family_name" />
                 <TextInput source="street" />
                 <TextInput source="int_number" />
