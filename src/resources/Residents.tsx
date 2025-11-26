@@ -1,4 +1,5 @@
-import { Create, DataTable, Edit, EmailField, List, ReferenceField, ReferenceInput, required, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
+import { Create, CreateProps, DataTable, Edit, EmailField, List, ReferenceField, ReferenceInput, required, SelectInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
+import { useWatch } from 'react-hook-form';
 import { usePermissions } from '../hooks/usePermissions';
 import { PermissionsLoading } from '../components/PermissionsLoading';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -62,6 +63,22 @@ export const ResidentShow = () => {
     );
 };
 
+const FilteredPropertiesInput = (props: any) => {
+    const accountId = useWatch({ name: 'account_id' }); // Watch the account_id field
+
+    return (
+        <ReferenceInput
+            source="property_id"
+            reference="properties"
+            filter={accountId ? { account_id: accountId } : {}} // Apply filter if accountId exists
+            {...props}
+        >
+            <SelectInput optionText="name" />
+        </ReferenceInput>
+    );
+};
+
+
 export const ResidentEdit = () => {
     const { canAccess } = usePermissions();
     const hasAccess = canAccess('residents', 'edit');
@@ -76,8 +93,10 @@ export const ResidentEdit = () => {
     return (
         <Edit>
             <SimpleForm>
-                <ReferenceInput source="account_id" reference="accounts" />
-                <ReferenceInput source="property_id" reference="properties" />
+                <ReferenceInput source="account_id" reference="accounts" >
+                    <SelectInput optionText="name" />
+                </ReferenceInput>
+                <FilteredPropertiesInput />
                 <TextInput source="name" validate={[required("ra.validation.name")]} />
                 <TextInput source="phone" />
                 <TextInput source="email" />
@@ -87,7 +106,7 @@ export const ResidentEdit = () => {
     );
 };
 
-export const ResidentCreate = () => {
+export const ResidentCreate = (props: JSX.IntrinsicAttributes & CreateProps<any, Error, any>) => {
     const { canAccess } = usePermissions();
     const hasAccess = canAccess('residents', 'create');
     
@@ -99,10 +118,12 @@ export const ResidentCreate = () => {
     }
     
     return (
-        <Create>
+        <Create {...props}>
             <SimpleForm>
-                <ReferenceInput source="account_id" reference="accounts" />
-                <ReferenceInput source="property_id" reference="properties" />
+                <ReferenceInput source="account_id" reference="accounts" >
+                    <SelectInput optionText="name" />
+                </ReferenceInput>
+                <FilteredPropertiesInput />
                 <TextInput source="name" validate={[required("ra.validation.name")]} />
                 <TextInput source="phone" />
                 <TextInput source="email" />
