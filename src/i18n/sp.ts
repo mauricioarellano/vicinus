@@ -4,6 +4,16 @@ export default {
     ...spanishMessages,
     ra: {
         ...spanishMessages.ra,
+        auth: {
+            ...spanishMessages.ra?.auth,
+            welcome: "Bienvenido a Vicinus",
+            tagline: "Tu plataforma de gestión vecinal",
+            sign_in_error: "Nombre de usuario o contraseña inválidos",
+        },
+        action: {
+            ...spanishMessages.ra?.action,
+            sign_in: "Iniciar sesión",
+        },
         validation: {
             ...spanishMessages.ra.validation,
             email: "Debe ser una dirección de correo electrónico válida",
