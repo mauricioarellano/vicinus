@@ -79,13 +79,13 @@ export const AccountEdit = () => {
             <SimpleForm sanitizeEmptyValues={true}>
                 <TextInput source="name" />
                 <TextInput source="condo_type" />
-                <TextInput source="address.street" />
-                <TextInput source="address.number" />
-                <TextInput source="address.neighborhood" />
-                <TextInput source="address.city" />
-                <TextInput source="address.state" />
-                <TextInput source="address.country" />
-                <TextInput source="address.zip_code" />
+                <TextInput source="address.street" defaultValue={''} />
+                <TextInput source="address.number" defaultValue={''} />
+                <TextInput source="address.neighborhood" defaultValue={''} />
+                <TextInput source="address.city" defaultValue={''} />
+                <TextInput source="address.state" defaultValue={''} />
+                <TextInput source="address.country" defaultValue={''} />
+                <TextInput source="address.zip_code" defaultValue={''} />
                 <TextInput source="email" />
                 <TextInput source="website" />
             </SimpleForm>
@@ -109,13 +109,13 @@ export const AccountCreate = () => {
             <SimpleForm sanitizeEmptyValues={true}>
                 <TextInput source="name" validate={[required("ra.validation.name")]} />
                 <TextInput source="condo_type" validate={[required("ra.validation.condo_type")]} />
-                <TextInput source="address.street" />
-                <TextInput source="address.number" />
-                <TextInput source="address.neighborhood" />
-                <TextInput source="address.city" />
-                <TextInput source="address.state" />
-                <TextInput source="address.country" />
-                <TextInput source="address.zip_code" />
+                <TextInput source="address.street" defaultValue={''} />
+                <TextInput source="address.number" defaultValue={''} />
+                <TextInput source="address.neighborhood" defaultValue={''} />
+                <TextInput source="address.city" defaultValue={''} />
+                <TextInput source="address.state" defaultValue={''} />
+                <TextInput source="address.country" defaultValue={''} />
+                <TextInput source="address.zip_code" defaultValue={''} />
                 <TextInput source="email" />
                 <TextInput source="website" />
             </SimpleForm>
