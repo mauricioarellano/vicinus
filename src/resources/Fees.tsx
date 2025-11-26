@@ -19,6 +19,7 @@ import {
 import OrderIcon from "@mui/icons-material/AttachMoney";
 import { usePermissions } from "../hooks/usePermissions";
 import { PermissionsLoading } from "../components/PermissionsLoading";
+import PaymentsIcon from '@mui/icons-material/Payments';
 
 const PageTitle = () => {
   const record = useRecordContext();
@@ -159,5 +160,5 @@ export default {
   create: FeeCreate,
   edit: FeeEdit,
   show: FeeShow,
-  icon: OrderIcon,
+  icon: PaymentsIcon,
 };

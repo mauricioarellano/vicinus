@@ -1,4 +1,4 @@
-import { Create, DataTable, DateField, Edit, EmailField, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
+import { Create, DataTable, Edit, EmailField, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { usePermissions } from '../hooks/usePermissions';
 import { PermissionsLoading } from '../components/PermissionsLoading';
@@ -66,23 +66,41 @@ export const UserShow = () => {
                 
                 <TextField source="phone" />
                 <EmailField source="email" />
-                <TextField source="website" />
-               
-                <TextField source="company.name" />
+            </DataTable.Col>
+            <DataTable.Col source="website" />
+            
+            <DataTable.Col source="company.name" />
+            <DataTable.Col source="photo" />
+            
+        </DataTable>
+    </List>
+);
 
-                <TextField source="address.street" />
-                <TextField source="address.number" />
-                <TextField source="address.neighborhood" />
-                <TextField source="address.city" />
-                <TextField source="address.state" />
-                <TextField source="address.country" />
-                <TextField source="address.zip_code" />
-                <DateField source="photo" />
-                
-            </SimpleShowLayout>
-        </Show>
-    );
-};
+export const UserShow = () => (
+    <Show title={<PageTitle />}>
+        <SimpleShowLayout>
+            <TextField source="name" />
+            <TextField source="username" />
+            <ReferenceField source="account_id" reference="accounts" />
+            
+            <TextField source="phone" />
+            <EmailField source="email" />
+            <TextField source="website" />
+           
+            <TextField source="company.name" />
+
+            <TextField source="address.street" />
+            <TextField source="address.number" />
+            <TextField source="address.neighborhood" />
+            <TextField source="address.city" />
+            <TextField source="address.state" />
+            <TextField source="address.country" />
+            <TextField source="address.zip_code" />
+            <TextField source="photo" />
+            
+        </SimpleShowLayout>
+    </Show>
+);
 
 export const UserEdit = () => {
     const { canAccess } = usePermissions();

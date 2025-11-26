@@ -2,6 +2,9 @@ import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, Si
 import CustomerIcon from "@mui/icons-material/People";
 import { usePermissions } from '../hooks/usePermissions';
 import { PermissionsLoading } from '../components/PermissionsLoading';
+import GroupsIcon from '@mui/icons-material/Groups';
+
+const icon = GroupsIcon;
 
 export const ResidentList = () => {
     const { canAccess } = usePermissions();
@@ -103,5 +106,5 @@ export default {
   create: ResidentCreate,
   edit: ResidentEdit,
   show: ResidentShow,
-  icon: CustomerIcon,
+  icon: icon,
 };

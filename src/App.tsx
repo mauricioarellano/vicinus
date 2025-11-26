@@ -6,9 +6,11 @@ import accounts from "./resources/Accounts";
 import properties from "./resources/Properties";
 import users from "./resources/Users";
 import fees from "./resources/Fees";
+import fee_amounts from "./resources/FeeAmounts";
 import visitors from "./resources/Visitors";
 import recurrent_visitors from "./resources/RecurrentVisitors";
 import residents from "./resources/Residents";
+import roles from "./resources/Roles";
 
 export const App = () => (
   <Admin
@@ -22,7 +24,10 @@ export const App = () => (
     <Resource name="residents" {...residents} />
     <Resource name="users" {...users} />
     <Resource name="fees" {...fees} />
+    <Resource name="fee_amounts" {...fee_amounts} />
     <Resource name="visitors" {...visitors} />
     <Resource name="recurrent_visitors" {...recurrent_visitors} />
+    <Resource name="roles" {...roles} />
+
   </Admin>
 );

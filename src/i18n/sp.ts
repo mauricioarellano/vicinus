@@ -1,4 +1,5 @@
 import spanishMessages from "@blackbox-vision/ra-language-spanish";
+import { email } from "react-admin";
 
 export default {
     ...spanishMessages,
@@ -33,6 +34,13 @@ export default {
                 account_id: 'Cuenta',
                 property_id: 'Propiedad',
                 user_id: 'Usuario',
+            },
+        },
+        fee_amounts: {
+            name: 'Monto de cuota |||| Montos de cuota',
+            fields: {
+                amount: 'Cantidad',
+                account_id: 'Cuenta',
             },
         },
         properties: {
@@ -71,6 +79,17 @@ export default {
                 plate_photo: 'Foto de placa',
                 property_id: 'Propiedad',
                 visitor_type: 'Tipo de visitante',
+            },
+        },
+        roles: {
+            name: 'Rol |||| Roles',
+            fields: {
+                description: 'Descripción',
+                name: 'Nombre',
+                account_id: 'Cuenta',
+                role: 'Rol',
+                is_active: 'Activo',
+                email: 'Correo electrónico',
             },
         },
         users: {
