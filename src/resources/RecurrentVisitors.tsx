@@ -1,94 +1,144 @@
 import { ArrayInput, Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleFormIterator, SimpleShowLayout, TextArrayField, TextField, TextInput, useRecordContext } from 'react-admin';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
+import { usePermissions } from '../hooks/usePermissions';
+import { PermissionsLoading } from '../components/PermissionsLoading';
 
 const PageTitle = () => {
     const record = useRecordContext();
     return <span>{record ? `${record.name}` : ''}</span>;
 }
 
-export const RecurrentVisitorList = () => (
-    <List>
-        <DataTable>
-            <DataTable.Col source="account_id">
-                <ReferenceField source="account_id" reference="accounts" />
-            </DataTable.Col>
-            <DataTable.Col source="property_id">
+export const RecurrentVisitorList = () => {
+    const { canAccess } = usePermissions();
+    const hasAccess = canAccess('recurrent_visitors', 'list');
+    
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
+        return <div>You don't have permission to view recurrent visitors.</div>;
+    }
+    
+    return (
+        <List>
+            <DataTable>
+                <DataTable.Col source="account_id">
+                    <ReferenceField source="account_id" reference="accounts" />
+                </DataTable.Col>
+                <DataTable.Col source="property_id">
+                    <ReferenceField source="property_id" reference="properties" />
+                </DataTable.Col>
+                <DataTable.Col source="name" />
+                <DataTable.Col source="visitor_type" />
+                <DataTable.Col source="identity_doc_photo" />
+                <DataTable.Col source="plate" />
+                <DataTable.Col source="plate_photo" />
+                
+                <DataTable.Col source="access_schedule.days">
+                    <TextArrayField source="access_schedule.days" />
+                </DataTable.Col>
+                
+            </DataTable>
+        </List>
+    );
+};
+
+export const RecurrentVisitorShow = () => {
+    const { canAccess } = usePermissions();
+    const hasAccess = canAccess('recurrent_visitors', 'show');
+    
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
+        return <div>You don't have permission to view this recurrent visitor.</div>;
+    }
+    
+    return (
+        <Show title={<PageTitle />} >
+            <SimpleShowLayout>
                 <ReferenceField source="property_id" reference="properties" />
-            </DataTable.Col>
-            <DataTable.Col source="name" />
-            <DataTable.Col source="visitor_type" />
-            <DataTable.Col source="identity_doc_photo" />
-            <DataTable.Col source="plate" />
-            <DataTable.Col source="plate_photo" />
-            
-            <DataTable.Col source="access_schedule.days">
+                <ReferenceField source="account_id" reference="accounts" />
+                <TextField source="name" />
+                <TextField source="visitor_type" />
+                <TextField source="identity_doc_photo" />
+                <TextField source="plate" />
+                <TextField source="plate_photo" />
                 <TextArrayField source="access_schedule.days" />
-            </DataTable.Col>
-            
-        </DataTable>
-    </List>
-);
+                <TextField source="access_schedule.hours.entrance" />
+                <TextField source="access_schedule.hours.exit" />
+            </SimpleShowLayout>
+        </Show>
+    );
+};
 
-export const RecurrentVisitorShow = () => (
-    <Show title={<PageTitle />} >
-        <SimpleShowLayout>
-            <ReferenceField source="property_id" reference="properties" />
-            <ReferenceField source="account_id" reference="accounts" />
-            <TextField source="name" />
-            <TextField source="visitor_type" />
-            <TextField source="identity_doc_photo" />
-            <TextField source="plate" />
-            <TextField source="plate_photo" />
-            <TextArrayField source="access_schedule.days" />
-            <TextField source="access_schedule.hours.entrance" />
-            <TextField source="access_schedule.hours.exit" />
-        </SimpleShowLayout>
-    </Show>
-);
+export const RecurrentVisitorEdit = () => {
+    const { canAccess } = usePermissions();
+    const hasAccess = canAccess('recurrent_visitors', 'edit');
+    
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
+        return <div>You don't have permission to edit recurrent visitors.</div>;
+    }
+    
+    return (
+        <Edit title={<PageTitle />} >
+            <SimpleForm>
+                <ReferenceInput source="account_id" reference="accounts" />
+                <ReferenceInput source="property_id" reference="properties" />
+                <TextInput source="name" />
+                <TextInput source="visitor_type" />
+                <TextInput source="identity_doc_photo" />
+                <TextInput source="plate" />
+                <TextInput source="plate_photo" />
+                <ArrayInput source="access_schedule.days" >
+                    <SimpleFormIterator inline>
+                        <TextInput />
+                    </SimpleFormIterator>
+                </ArrayInput>
+                <TextInput source="access_schedule.hours.entrance" />
+                <TextInput source="access_schedule.hours.exit" />
+                
+            </SimpleForm>
+        </Edit>
+    );
+};
 
-export const RecurrentVisitorEdit = () => (
-    <Edit title={<PageTitle />} >
-        <SimpleForm>
-            <ReferenceInput source="account_id" reference="accounts" />
-            <ReferenceInput source="property_id" reference="properties" />
-            <TextInput source="name" />
-            <TextInput source="visitor_type" />
-            <TextInput source="identity_doc_photo" />
-            <TextInput source="plate" />
-            <TextInput source="plate_photo" />
-            <ArrayInput source="access_schedule.days" >
-                <SimpleFormIterator inline>
-                    <TextInput />
-                </SimpleFormIterator>
-            </ArrayInput>
-            <TextInput source="access_schedule.hours.entrance" />
-            <TextInput source="access_schedule.hours.exit" />
-            
-        </SimpleForm>
-    </Edit>
-);
-
-export const RecurrentVisitorCreate = () => (
-    <Create>
-        <SimpleForm>
-            <ReferenceInput source="account_id" reference="accounts" />
-            <ReferenceInput source="property_id" reference="properties" />
-            <TextInput source="name" />
-            <TextInput source="visitor_type" />
-            <TextInput source="identity_doc_photo" />
-            <TextInput source="plate" />
-            <TextInput source="plate_photo" />
-            <ArrayInput source="access_schedule.days" >
-                <SimpleFormIterator inline>
-                    <TextInput />
-                </SimpleFormIterator>
-            </ArrayInput>
-            <TextInput source="access_schedule.hours.entrance" />
-            <TextInput source="access_schedule.hours.exit" />
-            
-        </SimpleForm>
-    </Create>
-);
+export const RecurrentVisitorCreate = () => {
+    const { canAccess } = usePermissions();
+    const hasAccess = canAccess('recurrent_visitors', 'create');
+    
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
+        return <div>You don't have permission to create recurrent visitors.</div>;
+    }
+    
+    return (
+        <Create>
+            <SimpleForm>
+                <ReferenceInput source="account_id" reference="accounts" />
+                <ReferenceInput source="property_id" reference="properties" />
+                <TextInput source="name" />
+                <TextInput source="visitor_type" />
+                <TextInput source="identity_doc_photo" />
+                <TextInput source="plate" />
+                <TextInput source="plate_photo" />
+                <ArrayInput source="access_schedule.days" >
+                    <SimpleFormIterator inline>
+                        <TextInput />
+                    </SimpleFormIterator>
+                </ArrayInput>
+                <TextInput source="access_schedule.hours.entrance" />
+                <TextInput source="access_schedule.hours.exit" />
+                
+            </SimpleForm>
+        </Create>
+    );
+};
 
 export default {
     list: RecurrentVisitorList,

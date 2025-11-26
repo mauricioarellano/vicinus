@@ -3,17 +3,140 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // This rule allows anyone with your Firestore database reference to view, edit,
-    // and delete all data in your Firestore database. It is useful for getting
-    // started, but it is configured to expire after 30 days because it
-    // leaves your app open to attackers. At that time, all client
-    // requests to your Firestore database will be denied.
-    //
-    // Make sure to write security rules for your app before that time, or else
-    // all client requests to your Firestore database will be denied until you Update
-    // your rules
-    match /{document=**} {
-      allow read, write: if request.time < timestamp.date(2025, 12, 14);
+    // Helper function to get user role
+    function getUserRole() {
+      let userDoc = get(/databases/$(database)/documents/users/$(request.auth.uid));
+      return userDoc.data.role;
+    }
+
+    // Helper function to get user account_id
+    function getUserAccountId() {
+      let userDoc = get(/databases/$(database)/documents/users/$(request.auth.uid));
+      return userDoc.data.account_id;
+    }
+
+    // Helper function to check if user has specific role
+    function hasRole(role) {
+      return getUserRole() == role;
+    }
+
+    // Helper function to check if user has any of the roles
+    function hasAnyRole(roles) {
+      return getUserRole() in roles;
+    }
+
+    // Helper function to check if user belongs to account
+    function belongsToAccount(accountId) {
+      return getUserAccountId() == accountId;
+    }
+
+    // Helper function to check if resource belongs to user's account
+    function resourceBelongsToAccount(resourceAccountId) {
+      let userAccountId = getUserAccountId();
+      return resourceAccountId == userAccountId;
+    }
+
+    // Users collection - Admins can manage all, managers can read their account users, users can read their own
+    match /users/{userId} {
+      allow read: if request.auth != null && 
+                     (request.auth.uid == userId || 
+                      hasRole('admin') || 
+                      (hasAnyRole(['manager', 'viewer']) && 
+                       belongsToAccount(get(/databases/$(database)/documents/users/$(userId)).data.account_id)));
+      allow create: if hasRole('admin') || 
+                       (hasRole('manager') && 
+                        request.resource.data.account_id == getUserAccountId());
+      allow update: if hasRole('admin') || 
+                       (request.auth.uid == userId) ||
+                       (hasRole('manager') && 
+                        belongsToAccount(get(/databases/$(database)/documents/users/$(userId)).data.account_id));
+      allow delete: if hasRole('admin');
+    }
+
+    // Accounts collection - Admins can manage all, managers can read/edit their account
+    match /accounts/{accountId} {
+      allow read: if request.auth != null && 
+                     (hasRole('admin') || 
+                      (hasAnyRole(['manager', 'viewer']) && belongsToAccount(accountId)));
+      allow create: if hasRole('admin');
+      allow update: if hasRole('admin') || 
+                       (hasRole('manager') && belongsToAccount(accountId));
+      allow delete: if hasRole('admin');
+    }
+
+    // Properties collection - Account-scoped
+    match /properties/{propertyId} {
+      allow read: if request.auth != null && 
+                     (hasRole('admin') || 
+                      resourceBelongsToAccount(get(/databases/$(database)/documents/properties/$(propertyId)).data.account_id));
+      allow create: if hasRole('admin') || 
+                       (hasAnyRole(['manager']) && 
+                        request.resource.data.account_id == getUserAccountId());
+      allow update: if hasRole('admin') || 
+                       (hasRole('manager') && 
+                        resourceBelongsToAccount(get(/databases/$(database)/documents/properties/$(propertyId)).data.account_id));
+      allow delete: if hasRole('admin');
+    }
+
+    // Residents collection - Account-scoped
+    match /residents/{residentId} {
+      allow read: if request.auth != null && 
+                     (hasRole('admin') || 
+                      resourceBelongsToAccount(get(/databases/$(database)/documents/residents/$(residentId)).data.account_id));
+      allow create: if hasRole('admin') || 
+                       (hasRole('manager') && 
+                        request.resource.data.account_id == getUserAccountId());
+      allow update: if hasRole('admin') || 
+                       (hasRole('manager') && 
+                        resourceBelongsToAccount(get(/databases/$(database)/documents/residents/$(residentId)).data.account_id));
+      allow delete: if hasRole('admin');
+    }
+
+    // Visitors collection - Account-scoped, residents can create/view
+    match /visitors/{visitorId} {
+      allow read: if request.auth != null && 
+                     (hasRole('admin') || 
+                      resourceBelongsToAccount(get(/databases/$(database)/documents/visitors/$(visitorId)).data.account_id));
+      allow create: if request.auth != null && 
+                       (hasRole('admin') || 
+                        resourceBelongsToAccount(request.resource.data.account_id));
+      allow update: if hasRole('admin') || 
+                       (hasAnyRole(['manager']) && 
+                        resourceBelongsToAccount(get(/databases/$(database)/documents/visitors/$(visitorId)).data.account_id));
+      allow delete: if hasRole('admin') || 
+                       (hasRole('manager') && 
+                        resourceBelongsToAccount(get(/databases/$(database)/documents/visitors/$(visitorId)).data.account_id));
+    }
+
+    // Recurrent visitors collection - Account-scoped, residents can create/view
+    match /recurrent_visitors/{visitorId} {
+      allow read: if request.auth != null && 
+                     (hasRole('admin') || 
+                      resourceBelongsToAccount(get(/databases/$(database)/documents/recurrent_visitors/$(visitorId)).data.account_id));
+      allow create: if request.auth != null && 
+                       (hasRole('admin') || 
+                        resourceBelongsToAccount(request.resource.data.account_id));
+      allow update: if hasRole('admin') || 
+                       (hasAnyRole(['manager']) && 
+                        resourceBelongsToAccount(get(/databases/$(database)/documents/recurrent_visitors/$(visitorId)).data.account_id));
+      allow delete: if hasRole('admin') || 
+                       (hasRole('manager') && 
+                        resourceBelongsToAccount(get(/databases/$(database)/documents/recurrent_visitors/$(visitorId)).data.account_id));
+    }
+
+    // Fees collection - Account-scoped, residents can view their own
+    match /fees/{feeId} {
+      allow read: if request.auth != null && 
+                     (hasRole('admin') || 
+                      (hasAnyRole(['manager']) && resourceBelongsToAccount(get(/databases/$(database)/documents/fees/$(feeId)).data.account_id)) ||
+                      (hasRole('resident') && get(/databases/$(database)/documents/fees/$(feeId)).data.user_id == request.auth.uid));
+      allow create: if hasRole('admin') || 
+                       (hasRole('manager') && 
+                        request.resource.data.account_id == getUserAccountId());
+      allow update: if hasRole('admin') || 
+                       (hasRole('manager') && 
+                        resourceBelongsToAccount(get(/databases/$(database)/documents/fees/$(feeId)).data.account_id));
+      allow delete: if hasRole('admin');
     }
   }
 }
