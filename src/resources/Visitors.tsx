@@ -1,6 +1,7 @@
 import { Create, DataTable, DateField, DateTimeInput, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
 import CarCrashIcon from '@mui/icons-material/CarCrash';
 import { usePermissions } from '../hooks/usePermissions';
+import { PermissionsLoading } from '../components/PermissionsLoading';
 
 
 const PageTitle = () => {
@@ -10,8 +11,12 @@ const PageTitle = () => {
 
 export const VisitorList = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('visitors', 'list');
     
-    if (!canAccess('visitors', 'list')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to view visitors.</div>;
     }
     
@@ -45,8 +50,12 @@ export const VisitorList = () => {
 
 export const VisitorShow = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('visitors', 'show');
     
-    if (!canAccess('visitors', 'show')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to view this visitor.</div>;
     }
     
@@ -71,8 +80,12 @@ export const VisitorShow = () => {
 
 export const VisitorEdit = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('visitors', 'edit');
     
-    if (!canAccess('visitors', 'edit')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to edit visitors.</div>;
     }
     
@@ -97,8 +110,12 @@ export const VisitorEdit = () => {
 
 export const VisitorCreate = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('visitors', 'create');
     
-    if (!canAccess('visitors', 'create')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to create visitors.</div>;
     }
     

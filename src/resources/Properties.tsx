@@ -1,6 +1,7 @@
 import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
 import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import { usePermissions } from '../hooks/usePermissions';
+import { PermissionsLoading } from '../components/PermissionsLoading';
 
 const PageTitle = () => {
     const record = useRecordContext();
@@ -9,8 +10,12 @@ const PageTitle = () => {
 
 export const PropertyList = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('properties', 'list');
     
-    if (!canAccess('properties', 'list')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to view properties.</div>;
     }
     
@@ -36,8 +41,12 @@ export const PropertyList = () => {
 
 export const PropertyShow = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('properties', 'show');
     
-    if (!canAccess('properties', 'show')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to view this property.</div>;
     }
     
@@ -59,8 +68,12 @@ export const PropertyShow = () => {
 
 export const PropertyEdit = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('properties', 'edit');
     
-    if (!canAccess('properties', 'edit')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to edit properties.</div>;
     }
     
@@ -81,8 +94,12 @@ export const PropertyEdit = () => {
 
 export const PropertyCreate = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('properties', 'create');
     
-    if (!canAccess('properties', 'create')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to create properties.</div>;
     }
     

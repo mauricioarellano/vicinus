@@ -1,6 +1,7 @@
 import { ArrayInput, Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleFormIterator, SimpleShowLayout, TextArrayField, TextField, TextInput, useRecordContext } from 'react-admin';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import { usePermissions } from '../hooks/usePermissions';
+import { PermissionsLoading } from '../components/PermissionsLoading';
 
 const PageTitle = () => {
     const record = useRecordContext();
@@ -9,8 +10,12 @@ const PageTitle = () => {
 
 export const RecurrentVisitorList = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('recurrent_visitors', 'list');
     
-    if (!canAccess('recurrent_visitors', 'list')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to view recurrent visitors.</div>;
     }
     
@@ -40,8 +45,12 @@ export const RecurrentVisitorList = () => {
 
 export const RecurrentVisitorShow = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('recurrent_visitors', 'show');
     
-    if (!canAccess('recurrent_visitors', 'show')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to view this recurrent visitor.</div>;
     }
     
@@ -65,8 +74,12 @@ export const RecurrentVisitorShow = () => {
 
 export const RecurrentVisitorEdit = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('recurrent_visitors', 'edit');
     
-    if (!canAccess('recurrent_visitors', 'edit')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to edit recurrent visitors.</div>;
     }
     
@@ -95,8 +108,12 @@ export const RecurrentVisitorEdit = () => {
 
 export const RecurrentVisitorCreate = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('recurrent_visitors', 'create');
     
-    if (!canAccess('recurrent_visitors', 'create')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to create recurrent visitors.</div>;
     }
     

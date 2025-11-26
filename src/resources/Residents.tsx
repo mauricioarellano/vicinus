@@ -1,11 +1,16 @@
 import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout } from 'react-admin';
 import CustomerIcon from "@mui/icons-material/People";
 import { usePermissions } from '../hooks/usePermissions';
+import { PermissionsLoading } from '../components/PermissionsLoading';
 
 export const ResidentList = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('residents', 'list');
     
-    if (!canAccess('residents', 'list')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to view residents.</div>;
     }
     
@@ -29,8 +34,12 @@ export const ResidentList = () => {
 
 export const ResidentShow = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('residents', 'show');
     
-    if (!canAccess('residents', 'show')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to view this resident.</div>;
     }
     
@@ -47,8 +56,12 @@ export const ResidentShow = () => {
 
 export const ResidentEdit = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('residents', 'edit');
     
-    if (!canAccess('residents', 'edit')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to edit residents.</div>;
     }
     
@@ -65,8 +78,12 @@ export const ResidentEdit = () => {
 
 export const ResidentCreate = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('residents', 'create');
     
-    if (!canAccess('residents', 'create')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to create residents.</div>;
     }
     

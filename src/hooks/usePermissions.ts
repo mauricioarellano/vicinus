@@ -32,12 +32,17 @@ export const usePermissions = () => {
     return typedPermissions.account_id === accountId;
   };
 
-  const canAccess = (resource: string, action: ResourceAction): boolean => {
-    // If permissions are not loaded yet (undefined or null), deny access
-    // This prevents defaulting to viewer role before permissions are fetched
+  const canAccess = (
+    resource: string,
+    action: ResourceAction,
+  ): boolean | undefined => {
+    // If permissions are not loaded yet (undefined or null), return undefined to indicate loading state
+    // This allows React to re-render components once permissions are loaded
     if (!typedPermissions || !typedPermissions.role) {
-      console.log("canAccess: Permissions not loaded or role is undefined, denying access");
-      return false;
+      console.log(
+        "canAccess: Permissions not loaded yet, returning undefined (loading state)",
+      );
+      return undefined;
     }
 
     const role = typedPermissions.role;

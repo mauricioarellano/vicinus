@@ -1,6 +1,7 @@
 import { Create, DataTable, DateField, DateInput, Edit, List, NumberField, NumberInput, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
 import OrderIcon from "@mui/icons-material/AttachMoney";
 import { usePermissions } from '../hooks/usePermissions';
+import { PermissionsLoading } from '../components/PermissionsLoading';
 
 const PageTitle = () => {
     const record = useRecordContext();
@@ -10,8 +11,12 @@ const PageTitle = () => {
 
 export const FeeList = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('fees', 'list');
     
-    if (!canAccess('fees', 'list')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to view fees.</div>;
     }
     
@@ -46,8 +51,12 @@ export const FeeList = () => {
 
 export const FeeShow = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('fees', 'show');
     
-    if (!canAccess('fees', 'show')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to view this fee.</div>;
     }
     
@@ -71,8 +80,12 @@ export const FeeShow = () => {
 
 export const FeeEdit = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('fees', 'edit');
     
-    if (!canAccess('fees', 'edit')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to edit fees.</div>;
     }
     
@@ -96,8 +109,12 @@ export const FeeEdit = () => {
 
 export const FeeCreate = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('fees', 'create');
     
-    if (!canAccess('fees', 'create')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to create fees.</div>;
     }
     

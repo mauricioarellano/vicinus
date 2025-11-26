@@ -1,6 +1,7 @@
 import { Create, DataTable, Edit, EmailField, List, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, UrlField, useRecordContext } from 'react-admin';
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import { usePermissions } from '../hooks/usePermissions';
+import { PermissionsLoading } from '../components/PermissionsLoading';
 
 const PageTitle = () => {
     const record = useRecordContext();
@@ -9,8 +10,12 @@ const PageTitle = () => {
 
 export const AccountList = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('accounts', 'list');
     
-    if (!canAccess('accounts', 'list')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to view accounts.</div>;
     }
     
@@ -30,8 +35,12 @@ export const AccountList = () => {
 
 export const AccountShow = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('accounts', 'show');
     
-    if (!canAccess('accounts', 'show')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to view this account.</div>;
     }
     
@@ -56,8 +65,12 @@ export const AccountShow = () => {
 
 export const AccountEdit = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('accounts', 'edit');
     
-    if (!canAccess('accounts', 'edit')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to edit accounts.</div>;
     }
     
@@ -82,8 +95,12 @@ export const AccountEdit = () => {
 
 export const AccountCreate = () => {
     const { canAccess } = usePermissions();
+    const hasAccess = canAccess('accounts', 'create');
     
-    if (!canAccess('accounts', 'create')) {
+    if (hasAccess === undefined) {
+        return <PermissionsLoading />;
+    }
+    if (!hasAccess) {
         return <div>You don't have permission to create accounts.</div>;
     }
     
