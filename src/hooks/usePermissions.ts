@@ -1,83 +1,112 @@
-import { useGetPermissions, useRefresh } from "react-admin";
+import { useAuthProvider } from "react-admin";
 import { useEffect, useState } from "react";
 import { Permissions, Role, ResourceAction } from "../types/permissions";
 import { auth } from "../providers/dataProvider.firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 export const usePermissions = () => {
-  const refresh = useRefresh();
-  const permissionsResult = useGetPermissions();
-  const typedPermissions = permissionsResult as unknown as
-    | Permissions
-    | null
-    | undefined;
+  const authProvider = useAuthProvider();
+  const [permissions, setPermissions] = useState<
+    Permissions | null | undefined
+  >(undefined);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [lastAuthState, setLastAuthState] = useState<string | null>(null);
+  // Fetch permissions directly from authProvider
+  const fetchPermissions = async () => {
+    if (!authProvider?.getPermissions) {
+      console.log("usePermissions: No authProvider.getPermissions available");
+      setIsLoading(false);
+      return;
+    }
 
-  // Listen to Firebase auth state changes and trigger a refresh when user logs in
+    try {
+      console.log("usePermissions: Fetching permissions...");
+      setIsLoading(true);
+      const perms = await authProvider.getPermissions({});
+      console.log("usePermissions: Fetched permissions:", perms);
+      setPermissions(perms as Permissions | null | undefined);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("usePermissions: Error fetching permissions:", error);
+      setPermissions(null);
+      setIsLoading(false);
+    }
+  };
+
+  // Listen to Firebase auth state changes and fetch permissions when user logs in
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      const currentUid = user?.uid || null;
       console.log(
         "usePermissions: Auth state changed, user:",
-        currentUid,
-        "previous:",
-        lastAuthState,
+        user ? user.uid : "null",
       );
-
-      // If user just logged in (was null, now has uid), trigger refresh
-      if (!lastAuthState && currentUid) {
-        console.log("usePermissions: User logged in, triggering refresh");
-        setTimeout(() => {
-          refresh();
-        }, 500); // Small delay to ensure auth state is fully ready
+      if (user) {
+        // User is logged in, fetch permissions
+        fetchPermissions();
+      } else {
+        // User logged out
+        setPermissions(null);
+        setIsLoading(false);
       }
-
-      setLastAuthState(currentUid);
     });
 
+    // Also fetch immediately if user is already logged in
+    if (auth.currentUser) {
+      fetchPermissions();
+    } else {
+      setIsLoading(false);
+    }
+
     return () => unsubscribe();
-  }, [refresh, lastAuthState]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authProvider]);
 
   // Log for debugging
-  if (typedPermissions) {
-    console.log("usePermissions: Permissions loaded:", typedPermissions);
+  if (permissions) {
+    console.log("usePermissions: Permissions loaded:", permissions);
+  } else if (isLoading) {
+    console.log("usePermissions: Permissions loading...");
   } else {
-    console.log("usePermissions: Permissions not loaded yet (null/undefined)");
+    console.log("usePermissions: Permissions not loaded (null/undefined)");
   }
 
   const hasRole = (role: Role | Role[]): boolean => {
-    if (!typedPermissions?.role) return false;
+    if (!permissions?.role) return false;
     const roles = Array.isArray(role) ? role : [role];
-    return roles.includes(typedPermissions.role);
+    return roles.includes(permissions.role);
   };
 
   const hasPermission = (permission: string): boolean => {
-    if (!typedPermissions?.permissions) return false;
-    return typedPermissions.permissions.includes(permission);
+    if (!permissions?.permissions) return false;
+    return permissions.permissions.includes(permission);
   };
 
   const belongsToAccount = (accountId: string | undefined): boolean => {
-    if (!typedPermissions?.account_id) return false;
+    if (!permissions?.account_id) return false;
     if (!accountId) return false;
-    return typedPermissions.account_id === accountId;
+    return permissions.account_id === accountId;
   };
 
   const canAccess = (
     resource: string,
     action: ResourceAction,
   ): boolean | undefined => {
+    // If still loading, return undefined
+    if (isLoading) {
+      console.log("usePermissions: Still loading, returning undefined");
+      return undefined;
+    }
+
     // If permissions are not loaded yet (undefined or null), return undefined to indicate loading state
-    // This allows React to re-render components once permissions are loaded
-    if (!typedPermissions || !typedPermissions.role) {
+    if (!permissions || !permissions.role) {
       console.log(
-        "canAccess: Permissions not loaded yet, returning undefined (loading state)",
+        "usePermissions: Permissions not loaded, returning undefined (loading state)",
       );
       return undefined;
     }
 
-    const role = typedPermissions.role;
-    const userAccountId = typedPermissions.account_id;
+    const role = permissions.role;
+    const userAccountId = permissions.account_id;
 
     // Define access matrix for each resource/action combination
     const accessRules: Record<string, Record<ResourceAction, Role[]>> = {
@@ -146,7 +175,7 @@ export const usePermissions = () => {
   };
 
   return {
-    permissions: typedPermissions,
+    permissions,
     hasRole,
     hasPermission,
     canAccess,
