@@ -1,12 +1,43 @@
-import { useGetPermissions } from "react-admin";
+import { useGetPermissions, useRefresh } from "react-admin";
+import { useEffect, useState } from "react";
 import { Permissions, Role, ResourceAction } from "../types/permissions";
+import { auth } from "../providers/dataProvider.firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 export const usePermissions = () => {
+  const refresh = useRefresh();
   const permissionsResult = useGetPermissions();
   const typedPermissions = permissionsResult as unknown as
     | Permissions
     | null
     | undefined;
+
+  const [lastAuthState, setLastAuthState] = useState<string | null>(null);
+
+  // Listen to Firebase auth state changes and trigger a refresh when user logs in
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      const currentUid = user?.uid || null;
+      console.log(
+        "usePermissions: Auth state changed, user:",
+        currentUid,
+        "previous:",
+        lastAuthState,
+      );
+
+      // If user just logged in (was null, now has uid), trigger refresh
+      if (!lastAuthState && currentUid) {
+        console.log("usePermissions: User logged in, triggering refresh");
+        setTimeout(() => {
+          refresh();
+        }, 500); // Small delay to ensure auth state is fully ready
+      }
+
+      setLastAuthState(currentUid);
+    });
+
+    return () => unsubscribe();
+  }, [refresh, lastAuthState]);
 
   // Log for debugging
   if (typedPermissions) {
