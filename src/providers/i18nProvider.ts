@@ -1,6 +1,6 @@
 import { resolveBrowserLocale } from 'react-admin';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
-import englishMessages from 'ra-language-english';
+import englishMessages from "../i18n/en";
 import spanishMessages from "../i18n/sp";
 
 const translations = { en: englishMessages, sp: spanishMessages };
