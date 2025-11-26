@@ -1,4 +1,4 @@
-import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
+import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, required, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
 import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import { usePermissions } from '../hooks/usePermissions';
 import { PermissionsLoading } from '../components/PermissionsLoading';
@@ -80,13 +80,13 @@ export const PropertyEdit = () => {
     return (
         <Edit title={<PageTitle />} >
             <SimpleForm>
-                <TextInput source="name" />
+                <ReferenceInput source="account_id" reference="accounts" />
+                <TextInput source="name" validate={[required("ra.validation.name")]} />
+                <TextInput source="property_type"  validate={[required("ra.validation.property_type")]}/>
                 <TextInput source="family_name" />
                 <TextInput source="street" />
                 <TextInput source="int_number" />
-                <TextInput source="property_type" />
-                <ReferenceInput source="account_id" reference="accounts" />
-                <ReferenceInput source="owner_user_id" reference="users" />
+
             </SimpleForm>
         </Edit>
     );
@@ -106,13 +106,12 @@ export const PropertyCreate = () => {
     return (
         <Create>
             <SimpleForm>
-                <TextInput source="name" />
+                <ReferenceInput source="account_id" reference="accounts" />
+                <TextInput source="name" validate={[required("ra.validation.name")]} />
+                <TextInput source="property_type"  validate={[required("ra.validation.property_type")]}/>
                 <TextInput source="family_name" />
                 <TextInput source="street" />
                 <TextInput source="int_number" />
-                <TextInput source="property_type" />
-                <ReferenceInput source="account_id" reference="accounts" />
-                <ReferenceInput source="owner_user_id" reference="users" />
             </SimpleForm>
         </Create>
     );

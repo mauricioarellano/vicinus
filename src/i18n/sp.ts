@@ -19,6 +19,7 @@ export default {
             email: "Debe ser una dirección de correo electrónico válida",
             name: "El nombre es obligatorio",
             condo_type: "El tipo de condominio es obligatorio",
+            property_type: "El tipo de propiedad es obligatorio",
         },
     },
     resources: {
@@ -81,7 +82,10 @@ export default {
             fields: {
                 account_id: 'Cuenta',
                 property_id: 'Propiedad',
-                user_id: 'Usuario',
+                name: 'Nombre',
+                phone: 'Teléfono',
+                email: 'Correo electrónico',
+                photo: 'Foto',
             },
         },
         recurrent_visitors: {

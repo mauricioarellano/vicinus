@@ -14,6 +14,13 @@ export default {
             ...englishMessages.ra?.action,
             sign_in: "Sign In",
         },
+        validation: {
+            ...englishMessages.ra.validation,
+            email: "Must be a valid email address",
+            name: "Name is required",
+            condo_type: "Condo type is required",
+            property_type: "Property type is required",
+        },
     },
 };
 

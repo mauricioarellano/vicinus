@@ -1,5 +1,4 @@
-import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout } from 'react-admin';
-import CustomerIcon from "@mui/icons-material/People";
+import { Create, DataTable, Edit, EmailField, List, ReferenceField, ReferenceInput, required, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
 import { usePermissions } from '../hooks/usePermissions';
 import { PermissionsLoading } from '../components/PermissionsLoading';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -26,9 +25,12 @@ export const ResidentList = () => {
                 <DataTable.Col source="property_id">
                     <ReferenceField source="property_id" reference="properties" />
                 </DataTable.Col>
-                <DataTable.Col source="user_id">
-                    <ReferenceField source="user_id" reference="users" />
+                <TextField source="name" />
+                <DataTable.Col source="phone" />
+                <DataTable.Col source="email">
+                    <EmailField source="email" />
                 </DataTable.Col>
+                <DataTable.Col source="photo" />
                 
             </DataTable>
         </List>
@@ -51,7 +53,10 @@ export const ResidentShow = () => {
             <SimpleShowLayout>
                 <ReferenceField source="account_id" reference="accounts" />
                 <ReferenceField source="property_id" reference="properties" />
-                <ReferenceField source="user_id" reference="users" />
+                <TextField source="name" />
+                <TextField source="phone" />
+                <EmailField source="email" />
+                <TextField source="photo" />
             </SimpleShowLayout>
         </Show>
     );
@@ -73,7 +78,10 @@ export const ResidentEdit = () => {
             <SimpleForm>
                 <ReferenceInput source="account_id" reference="accounts" />
                 <ReferenceInput source="property_id" reference="properties" />
-                <ReferenceInput source="user_id" reference="users" />
+                <TextInput source="name" validate={[required("ra.validation.name")]} />
+                <TextInput source="phone" />
+                <TextInput source="email" />
+                <TextInput source="photo" />
             </SimpleForm>
         </Edit>
     );
@@ -95,7 +103,10 @@ export const ResidentCreate = () => {
             <SimpleForm>
                 <ReferenceInput source="account_id" reference="accounts" />
                 <ReferenceInput source="property_id" reference="properties" />
-                <ReferenceInput source="user_id" reference="users" />
+                <TextInput source="name" validate={[required("ra.validation.name")]} />
+                <TextInput source="phone" />
+                <TextInput source="email" />
+                <TextInput source="photo" />
             </SimpleForm>
         </Create>
     );
