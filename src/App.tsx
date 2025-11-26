@@ -1,7 +1,4 @@
-import {
-  Admin,
-  Resource,
-} from "react-admin";
+import { Admin, Resource } from "react-admin";
 import { Layout } from "./Layout";
 import { i18nProvider } from "./providers/i18nProvider";
 import { dataProvider, authProvider } from "./providers/dataProvider.firebase";
