@@ -1,4 +1,4 @@
-import { Create, DataTable, Edit, EmailField, List, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, UrlField, useRecordContext } from 'react-admin';
+import { Create, DataTable, Edit, EmailField, List, required, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, UrlField, useRecordContext } from 'react-admin';
 import ApartmentIcon from "@mui/icons-material/Apartment";
 
 const PageTitle = () => {
@@ -31,6 +31,7 @@ export const AccountShow = () => (
             <TextField source="address.state" />
             <TextField source="address.country" />
             <TextField source="address.zip_code" />
+            <TextField source="phone" />
             <EmailField source="email" />
             <UrlField source="website" />
         </SimpleShowLayout>
@@ -39,7 +40,7 @@ export const AccountShow = () => (
 
 export const AccountEdit = () => (
     <Edit title={<PageTitle />} >
-        <SimpleForm>
+        <SimpleForm sanitizeEmptyValues={true}>
             <TextInput source="name" />
             <TextInput source="condo_type" />
             <TextInput source="address.street" />
@@ -49,7 +50,8 @@ export const AccountEdit = () => (
             <TextInput source="address.state" />
             <TextInput source="address.country" />
             <TextInput source="address.zip_code" />
-            <TextInput source="email" />
+            <TextInput source="phone" type="tel" />
+            <TextInput source="email" type="email" />
             <TextInput source="website" />
         </SimpleForm>
     </Edit>
@@ -57,17 +59,18 @@ export const AccountEdit = () => (
 
 export const AccountCreate = () => (
     <Create>
-        <SimpleForm>
-            <TextInput source="name" />
-            <TextInput source="condo_type" />
-            <TextInput source="address.street" />
-            <TextInput source="address.number" />
-            <TextInput source="address.neighborhood" />
-            <TextInput source="address.city" />
-            <TextInput source="address.state" />
-            <TextInput source="address.country" />
-            <TextInput source="address.zip_code" />
-            <TextInput source="email" />
+        <SimpleForm sanitizeEmptyValues={true}>
+            <TextInput source="name" validate={[required("ra.validation.name")]} />
+            <TextInput source="condo_type" validate={[required("ra.validation.condo_type")]} />
+            <TextInput source="address.street" defaultValue={''}/>
+            <TextInput source="address.number" defaultValue={''}/>
+            <TextInput source="address.neighborhood" defaultValue={''}/>
+            <TextInput source="address.city" defaultValue={''}/>
+            <TextInput source="address.state" defaultValue={''}/>
+            <TextInput source="address.country" defaultValue={''}/>
+            <TextInput source="address.zip_code" defaultValue={''}/>
+            <TextInput source="phone" type="tel" />
+            <TextInput source="email" type="email" />
             <TextInput source="website" />
         </SimpleForm>
     </Create>

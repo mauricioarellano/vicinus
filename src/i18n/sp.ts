@@ -1,8 +1,16 @@
 import spanishMessages from "@blackbox-vision/ra-language-spanish";
-import { email } from "react-admin";
 
 export default {
     ...spanishMessages,
+    ra: {
+        ...spanishMessages.ra,
+        validation: {
+            ...spanishMessages.ra.validation,
+            email: "Debe ser una dirección de correo electrónico válida",
+            name: "El nombre es obligatorio",
+            condo_type: "El tipo de condominio es obligatorio",
+        },
+    },
     resources: {
         accounts: {
             name: 'Cuenta |||| Cuentas',
