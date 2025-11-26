@@ -1,7 +1,7 @@
 import { Create, DataTable, Edit, EmailField, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { usePermissions } from '../hooks/usePermissions';
 import { PermissionsLoading } from '../components/PermissionsLoading';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 const PageTitle = () => {
     const record = useRecordContext();
@@ -37,9 +37,7 @@ export const UserList = () => {
                 <DataTable.Col source="website" />
                 
                 <DataTable.Col source="company.name" />
-                <DataTable.Col source="photo">
-                    <DateField source="photo" />
-                </DataTable.Col>
+                <DataTable.Col source="photo" />
                 
             </DataTable>
         </List>
@@ -60,25 +58,6 @@ export const UserShow = () => {
     return (
         <Show title={<PageTitle />}>
             <SimpleShowLayout>
-                <TextField source="name" />
-                <TextField source="username" />
-                <ReferenceField source="account_id" reference="accounts" />
-                
-                <TextField source="phone" />
-                <EmailField source="email" />
-            </DataTable.Col>
-            <DataTable.Col source="website" />
-            
-            <DataTable.Col source="company.name" />
-            <DataTable.Col source="photo" />
-            
-        </DataTable>
-    </List>
-);
-
-export const UserShow = () => (
-    <Show title={<PageTitle />}>
-        <SimpleShowLayout>
             <TextField source="name" />
             <TextField source="username" />
             <ReferenceField source="account_id" reference="accounts" />
@@ -99,8 +78,9 @@ export const UserShow = () => (
             <TextField source="photo" />
             
         </SimpleShowLayout>
-    </Show>
+            </Show>
 );
+};
 
 export const UserEdit = () => {
     const { canAccess } = usePermissions();
