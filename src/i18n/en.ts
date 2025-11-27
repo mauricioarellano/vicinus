@@ -29,6 +29,8 @@ export default {
             visitor_type: "The visitor type is required",
             entrance_date: "The entrance date is required",
             exit_date: "The exit date is required",
+            phone: "Phone is required",
+            username: "Username is required",
         },
     },
     resources: {

@@ -29,6 +29,8 @@ export default {
             visitor_type: "El tipo de visitante es obligatorio",
             entrance_date: "La hora de entrada es obligatoria",
             exit_date: "La hora de salida es obligatoria",
+            phone: "El teléfono es obligatorio",
+            username: "El nombre de usuario es obligatorio",
         },
     },
     resources: {
