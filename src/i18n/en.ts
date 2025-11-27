@@ -16,10 +16,16 @@ export default {
         },
         validation: {
             ...englishMessages.ra.validation,
+            account: "The account is required",
+            property: "The property is required",
             email: "Must be a valid email address",
             name: "Name is required",
             condo_type: "Condo type is required",
             property_type: "Property type is required",
+            period_year: "The period year is required",
+            period_month: "The period month is required",
+            amount: "The amount is required",
+            status: "The status is required",
         },
     },
 };

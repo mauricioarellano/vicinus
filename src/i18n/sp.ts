@@ -16,10 +16,16 @@ export default {
         },
         validation: {
             ...spanishMessages.ra.validation,
+            account: "La cuenta es obligatoria",
+            property: "La propiedad es obligatoria",
             email: "Debe ser una dirección de correo electrónico válida",
             name: "El nombre es obligatorio",
             condo_type: "El tipo de condominio es obligatorio",
             property_type: "El tipo de propiedad es obligatorio",
+            period_year: "El año del período es obligatorio",
+            period_month: "El mes del período es obligatorio",
+            amount: "La cantidad es obligatoria",
+            status: "El estado es obligatorio",
         },
     },
     resources: {
@@ -88,6 +94,12 @@ export default {
             villa: 'Villa',
             cottage: 'Cabaña',
             bungalow: 'Bungaló',
+        },
+        property_statuses: {
+            pending: 'Pendiente',
+            paid: 'Pagado',
+            overdue: 'Atrasado',
+            validated: 'Validado',
         },
         residents: {
             name: 'Residente |||| Residentes',

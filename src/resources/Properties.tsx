@@ -88,7 +88,9 @@ export const PropertyEdit = () => {
     return (
         <Edit title={<PageTitle />} sanitizeEmptyValues={true} >
             <SimpleForm>
-                <ReferenceInput source="account_id" reference="accounts" />
+                <ReferenceInput source="account_id" reference="accounts" >
+                    <SelectInput optionText="name" validate={[required("ra.validation.account")]} />
+                </ReferenceInput>
                 <TextInput source="name" validate={[required("ra.validation.name")]} />
                 <SelectInput source="property_type"
                     choices={property_types}
@@ -117,7 +119,9 @@ export const PropertyCreate = () => {
     return (
         <Create>
             <SimpleForm sanitizeEmptyValues={true} >
-                <ReferenceInput source="account_id" reference="accounts" />
+                <ReferenceInput source="account_id" reference="accounts" >
+                    <SelectInput optionText="name" validate={[required("ra.validation.account")]} />
+                </ReferenceInput>
                 <TextInput source="name" validate={[required("ra.validation.name")]} />
                 <SelectInput source="property_type"
                     choices={property_types}

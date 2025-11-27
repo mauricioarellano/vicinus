@@ -1,4 +1,4 @@
-import { Create, CreateProps, DataTable, Edit, EmailField, List, ReferenceField, ReferenceInput, required, SelectInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
+import { Create, DataTable, Edit, EmailField, List, ReferenceField, ReferenceInput, required, SelectInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
 import { useWatch } from 'react-hook-form';
 import { usePermissions } from '../hooks/usePermissions';
 import { PermissionsLoading } from '../components/PermissionsLoading';
@@ -73,7 +73,7 @@ const FilteredPropertiesInput = (props: any) => {
             filter={accountId ? { account_id: accountId } : {}} // Apply filter if accountId exists
             {...props}
         >
-            <SelectInput optionText="name" />
+            <SelectInput optionText="name" validate={[required("ra.validation.property")]} />
         </ReferenceInput>
     );
 };
@@ -94,7 +94,7 @@ export const ResidentEdit = () => {
         <Edit>
             <SimpleForm sanitizeEmptyValues={true}>
                 <ReferenceInput source="account_id" reference="accounts" >
-                    <SelectInput optionText="name" />
+                    <SelectInput optionText="name" validate={[required("ra.validation.account")]} />
                 </ReferenceInput>
                 <FilteredPropertiesInput />
                 <TextInput source="name" validate={[required("ra.validation.name")]} />
@@ -106,7 +106,7 @@ export const ResidentEdit = () => {
     );
 };
 
-export const ResidentCreate = (props: JSX.IntrinsicAttributes & CreateProps<any, Error, any>) => {
+export const ResidentCreate = (props: any) => {
     const { canAccess } = usePermissions();
     const hasAccess = canAccess('residents', 'create');
     
@@ -121,7 +121,7 @@ export const ResidentCreate = (props: JSX.IntrinsicAttributes & CreateProps<any,
         <Create {...props}>
             <SimpleForm sanitizeEmptyValues={true}>
                 <ReferenceInput source="account_id" reference="accounts" >
-                    <SelectInput optionText="name" />
+                    <SelectInput optionText="name" validate={[required("ra.validation.account")]} />
                 </ReferenceInput>
                 <FilteredPropertiesInput />
                 <TextInput source="name" validate={[required("ra.validation.name")]} />
