@@ -7,16 +7,29 @@ import {
   List,
   ReferenceField,
   ReferenceInput,
+  required,
+  SelectField,
+  SelectInput,
   Show,
   SimpleForm,
   SimpleShowLayout,
   TextField,
   TextInput,
   useRecordContext,
+  useTranslate,
 } from "react-admin";
 import CarCrashIcon from "@mui/icons-material/CarCrash";
 import { usePermissions } from "../hooks/usePermissions";
 import { PermissionsLoading } from "../components/PermissionsLoading";
+import FilteredPropertiesInput from "../components/FilteredPropertiesInput";
+import FilteredRecurrentVisitorsInput from "../components/FilteredRecurrentVisitorsInput";
+
+const visitor_types = [
+  { id: "guest", name: "resources.visitor_types.guest" },
+  { id: "service", name: "resources.visitor_types.service" },
+  { id: "delivery", name: "resources.visitor_types.delivery" },
+  { id: "other", name: "resources.visitor_types.other" },
+];
 
 const PageTitle = () => {
   const record = useRecordContext();
@@ -24,6 +37,7 @@ const PageTitle = () => {
 };
 
 export const VisitorList = () => {
+  const translate = useTranslate();
   const { canAccess } = usePermissions();
   const hasAccess = canAccess("visitors", "list");
 
@@ -44,7 +58,9 @@ export const VisitorList = () => {
           <ReferenceField source="property_id" reference="properties" />
         </DataTable.Col>
         <DataTable.Col source="name" />
-        <DataTable.Col source="visitor_type" />
+        <DataTable.Col source="visitor_type"
+                       render={record => translate(`resources.visitor_types.${record.visitor_type}`)}
+        />
         <DataTable.Col source="identity_doc_photo" />
         <DataTable.Col source="plate" />
         <DataTable.Col source="plate_photo" />
@@ -82,7 +98,7 @@ export const VisitorShow = () => {
         <ReferenceField source="account_id" reference="accounts" />
         <ReferenceField source="property_id" reference="properties" />
         <TextField source="name" />
-        <TextField source="visitor_type" />
+        <SelectField source="visitor_type" choices={visitor_types} translateChoice={true} />
         <TextField source="identity_doc_photo" />
         <TextField source="plate" />
         <TextField source="plate_photo" />
@@ -110,20 +126,22 @@ export const VisitorEdit = () => {
 
   return (
     <Edit title={<PageTitle />}>
-      <SimpleForm>
-        <ReferenceInput source="account_id" reference="accounts" />
-        <ReferenceInput source="property_id" reference="properties" />
-        <TextInput source="name" />
-        <TextInput source="visitor_type" />
+      <SimpleForm sanitizeEmptyValues={true}>
+        <ReferenceInput source="account_id" reference="accounts" >
+            <SelectInput optionText="name" validate={[required("ra.validation.account")]} />
+        </ReferenceInput>
+        <FilteredPropertiesInput />
+        <TextInput source="name" validate={[required("ra.validation.name")]} />
+        <SelectInput source="visitor_type"
+                            choices={visitor_types}
+                            validate={[required("ra.validation.visitor_type")]}
+                        />
         <TextInput source="identity_doc_photo" />
         <TextInput source="plate" />
         <TextInput source="plate_photo" />
         <DateTimeInput source="entrance_date" />
         <DateTimeInput source="exit_date" />
-        <ReferenceInput
-          source="recurrent_visitor_id"
-          reference="recurrent_visitors"
-        />
+        <FilteredRecurrentVisitorsInput />
       </SimpleForm>
     </Edit>
   );
@@ -142,20 +160,22 @@ export const VisitorCreate = () => {
 
   return (
     <Create>
-      <SimpleForm>
-        <ReferenceInput source="account_id" reference="accounts" />
-        <ReferenceInput source="property_id" reference="properties" />
-        <TextInput source="name" />
-        <TextInput source="visitor_type" />
+      <SimpleForm sanitizeEmptyValues={true}>
+        <ReferenceInput source="account_id" reference="accounts" >
+            <SelectInput optionText="name" validate={[required("ra.validation.account")]} />
+        </ReferenceInput>
+        <FilteredPropertiesInput />
+        <TextInput source="name" validate={[required("ra.validation.name")]} />
+        <SelectInput source="visitor_type"
+                            choices={visitor_types}
+                            validate={[required("ra.validation.visitor_type")]}
+                        />
         <TextInput source="identity_doc_photo" />
         <TextInput source="plate" />
         <TextInput source="plate_photo" />
-        <DateTimeInput source="entrance_date" />
+        <DateTimeInput source="entrance_date" validate={[required("ra.validation.entrance_date")]} />
         <DateTimeInput source="exit_date" />
-        <ReferenceInput
-          source="recurrent_visitor_id"
-          reference="recurrent_visitors"
-        />
+        <FilteredRecurrentVisitorsInput />
       </SimpleForm>
     </Create>
   );

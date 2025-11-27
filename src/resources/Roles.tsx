@@ -1,6 +1,4 @@
 import { BooleanField, BooleanInput, Create, DataTable, Edit, EmailField, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 
 const icon = SupervisedUserCircleIcon;

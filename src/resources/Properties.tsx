@@ -1,7 +1,13 @@
-import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
+import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, required, SelectField, SelectInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext, useTranslate } from 'react-admin';
 import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import { usePermissions } from '../hooks/usePermissions';
 import { PermissionsLoading } from '../components/PermissionsLoading';
+
+
+const property_types = [
+    { id: 'apartment', name: 'resources.property_types.apartment' },
+    { id: 'house', name: 'resources.property_types.house' },
+];
 
 const PageTitle = () => {
     const record = useRecordContext();
@@ -11,6 +17,8 @@ const PageTitle = () => {
 export const PropertyList = () => {
     const { canAccess } = usePermissions();
     const hasAccess = canAccess('properties', 'list');
+    const translate = useTranslate();
+
     
     if (hasAccess === undefined) {
         return <PermissionsLoading />;
@@ -26,14 +34,12 @@ export const PropertyList = () => {
                 <DataTable.Col source="family_name" />
                 <DataTable.Col source="street" />
                 <DataTable.Col source="int_number" />
-                <DataTable.Col source="property_type" />
+                <DataTable.Col source="property_type" 
+                               render={record => translate(`resources.property_types.${record.property_type}`)}
+                />
                 <DataTable.Col source="account_id">
                     <ReferenceField source="account_id" reference="accounts" />
                 </DataTable.Col>
-                <DataTable.Col source="owner_user_id">
-                    <ReferenceField source="owner_user_id" reference="users" />
-                </DataTable.Col>
-                
             </DataTable>
         </List>
     );
@@ -53,14 +59,14 @@ export const PropertyShow = () => {
     return (
         <Show title={<PageTitle />} >
             <SimpleShowLayout>
+                <ReferenceField source="account_id" reference="accounts" />
                 <TextField source="name" />
                 <TextField source="family_name" />
                 <TextField source="street" />
                 <TextField source="int_number" />
-                <TextField source="property_type" />
-                <ReferenceField source="account_id" reference="accounts" />
-                <ReferenceField source="owner_user_id" reference="users" />
-                
+                <SelectField source="property_type" 
+                             choices={property_types}
+                />
             </SimpleShowLayout>
         </Show>
     );
@@ -78,15 +84,19 @@ export const PropertyEdit = () => {
     }
     
     return (
-        <Edit title={<PageTitle />} >
+        <Edit title={<PageTitle />} sanitizeEmptyValues={true} >
             <SimpleForm>
-                <TextInput source="name" />
+                <ReferenceInput source="account_id" reference="accounts" >
+                    <SelectInput optionText="name" validate={[required("ra.validation.account")]} />
+                </ReferenceInput>
+                <TextInput source="name" validate={[required("ra.validation.name")]} />
+                <SelectInput source="property_type"
+                    choices={property_types}
+                    validate={[required("ra.validation.property_type")]}
+                />
                 <TextInput source="family_name" />
                 <TextInput source="street" />
                 <TextInput source="int_number" />
-                <TextInput source="property_type" />
-                <ReferenceInput source="account_id" reference="accounts" />
-                <ReferenceInput source="owner_user_id" reference="users" />
             </SimpleForm>
         </Edit>
     );
@@ -105,14 +115,18 @@ export const PropertyCreate = () => {
     
     return (
         <Create>
-            <SimpleForm>
-                <TextInput source="name" />
+            <SimpleForm sanitizeEmptyValues={true} >
+                <ReferenceInput source="account_id" reference="accounts" >
+                    <SelectInput optionText="name" validate={[required("ra.validation.account")]} />
+                </ReferenceInput>
+                <TextInput source="name" validate={[required("ra.validation.name")]} />
+                <SelectInput source="property_type"
+                    choices={property_types}
+                    validate={[required("ra.validation.property_type")]}
+                />
                 <TextInput source="family_name" />
                 <TextInput source="street" />
                 <TextInput source="int_number" />
-                <TextInput source="property_type" />
-                <ReferenceInput source="account_id" reference="accounts" />
-                <ReferenceInput source="owner_user_id" reference="users" />
             </SimpleForm>
         </Create>
     );

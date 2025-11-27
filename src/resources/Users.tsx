@@ -1,4 +1,4 @@
-import { Create, DataTable, Edit, EmailField, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
+import { Create, DataTable, Edit, email, EmailField, List, number, ReferenceField, ReferenceInput, required, SelectInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, useRecordContext } from 'react-admin';
 import { usePermissions } from '../hooks/usePermissions';
 import { PermissionsLoading } from '../components/PermissionsLoading';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
@@ -96,26 +96,22 @@ export const UserEdit = () => {
     return (
         <Edit title={<PageTitle />} >
             <SimpleForm>
-                <TextInput source="name" />
-                <TextInput source="username" />
-                <ReferenceInput source="account_id" reference="accounts" />
-                
-                <TextInput source="phone" />
-                <TextInput source="email" />
+                <ReferenceInput source="account_id" reference="accounts" >
+                    <SelectInput optionText="name" validate={[required("ra.validation.account")]} />
+                </ReferenceInput>
+                <TextInput source="name" validate={[required("ra.validation.name")]} />
+                <TextInput source="email" validate={[required("ra.validation.email"), email()]} />
+                <TextInput source="phone" validate={[required("ra.validation.phone"), number()]} />
                 <TextInput source="website" />
-               
-                <TextInput source="company.name" />
-
-                <TextInput source="address.street" />
-                <TextInput source="address.number" />
-                <TextInput source="address.neighborhood" />
-                <TextInput source="address.city" />
-                <TextInput source="address.state" />
-                <TextInput source="address.country" />
-                <TextInput source="address.zip_code" />
+                <TextInput source="company.name" defaultValue={''} />
+                <TextInput source="address.street" defaultValue={''} />
+                <TextInput source="address.number" defaultValue={''} />
+                <TextInput source="address.neighborhood" defaultValue={''} />
+                <TextInput source="address.city" defaultValue={''} />
+                <TextInput source="address.state" defaultValue={''} />
+                <TextInput source="address.country" defaultValue={''} />
+                <TextInput source="address.zip_code" defaultValue={''} />
                 <TextInput source="photo" />
-
-                
             </SimpleForm>
         </Edit>
     );
@@ -134,27 +130,23 @@ export const UserCreate = () => {
     
     return (
         <Create>
-            <SimpleForm>
-                <TextInput source="name" />
-                <TextInput source="username" />
-                <ReferenceInput source="account_id" reference="accounts" />
-                
-                <TextInput source="phone" />
-                <TextInput source="email" />
+            <SimpleForm sanitizeEmptyValues={true}>
+                <ReferenceInput source="account_id" reference="accounts" >
+                    <SelectInput optionText="name" validate={[required("ra.validation.account")]} />
+                </ReferenceInput>
+                <TextInput source="name" validate={[required("ra.validation.name")]} />
+                <TextInput source="email" validate={[required("ra.validation.email"), email()]} />
+                <TextInput source="phone" validate={[required("ra.validation.phone"), number()]} />
                 <TextInput source="website" />
-               
-                <TextInput source="company.name" />
-
-                <TextInput source="address.street" />
-                <TextInput source="address.number" />
-                <TextInput source="address.neighborhood" />
-                <TextInput source="address.city" />
-                <TextInput source="address.state" />
-                <TextInput source="address.country" />
-                <TextInput source="address.zip_code" />
+                <TextInput source="company.name" defaultValue={''} />
+                <TextInput source="address.street" defaultValue={''} />
+                <TextInput source="address.number" defaultValue={''} />
+                <TextInput source="address.neighborhood" defaultValue={''} />
+                <TextInput source="address.city" defaultValue={''} />
+                <TextInput source="address.state" defaultValue={''} />
+                <TextInput source="address.country" defaultValue={''} />
+                <TextInput source="address.zip_code" defaultValue={''} />
                 <TextInput source="photo" />
-
-                
             </SimpleForm>
         </Create>
     );

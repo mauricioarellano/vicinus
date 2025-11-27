@@ -1,7 +1,25 @@
-import { ArrayInput, Create, DataTable, Edit, List, ReferenceField, ReferenceInput, Show, SimpleForm, SimpleFormIterator, SimpleShowLayout, TextArrayField, TextField, TextInput, useRecordContext } from 'react-admin';
+import { Create, DataTable, Edit, List, ReferenceField, ReferenceInput, required, SelectArrayInput, SelectInput, Show, SimpleForm, SimpleShowLayout, TextArrayField, TextField, TextInput, useRecordContext } from 'react-admin';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import { usePermissions } from '../hooks/usePermissions';
 import { PermissionsLoading } from '../components/PermissionsLoading';
+import FilteredPropertiesInput from '../components/FilteredPropertiesInput';
+
+const visitor_types = [
+  { id: "guest", name: "resources.visitor_types.guest" },
+  { id: "service", name: "resources.visitor_types.service" },
+  { id: "delivery", name: "resources.visitor_types.delivery" },
+  { id: "other", name: "resources.visitor_types.other" },
+];
+
+const daysOfWeek = [
+  { id: "Monday", name: "resources.days.Monday" },
+  { id: "Tuesday", name: "resources.days.Tuesday" },
+  { id: "Wednesday", name: "resources.days.Wednesday" },
+  { id: "Thursday", name: "resources.days.Thursday" },
+  { id: "Friday", name: "resources.days.Friday" },
+  { id: "Saturday", name: "resources.days.Saturday" },
+  { id: "Sunday", name: "resources.days.Sunday" },
+];
 
 const PageTitle = () => {
     const record = useRecordContext();
@@ -86,18 +104,19 @@ export const RecurrentVisitorEdit = () => {
     return (
         <Edit title={<PageTitle />} >
             <SimpleForm>
-                <ReferenceInput source="account_id" reference="accounts" />
-                <ReferenceInput source="property_id" reference="properties" />
-                <TextInput source="name" />
-                <TextInput source="visitor_type" />
+                <ReferenceInput source="account_id" reference="accounts" >
+                    <SelectInput optionText="name" validate={[required("ra.validation.account")]} />
+                </ReferenceInput>
+                <FilteredPropertiesInput />
+                <TextInput source="name" validate={[required("ra.validation.name")]} />
+                <SelectInput source="visitor_type"
+                             choices={visitor_types}
+                             validate={[required("ra.validation.visitor_type")]}
+                />
                 <TextInput source="identity_doc_photo" />
                 <TextInput source="plate" />
                 <TextInput source="plate_photo" />
-                <ArrayInput source="access_schedule.days" >
-                    <SimpleFormIterator inline>
-                        <TextInput />
-                    </SimpleFormIterator>
-                </ArrayInput>
+                <SelectArrayInput source="access_schedule.days" choices={daysOfWeek} />
                 <TextInput source="access_schedule.hours.entrance" />
                 <TextInput source="access_schedule.hours.exit" />
                 
@@ -119,19 +138,20 @@ export const RecurrentVisitorCreate = () => {
     
     return (
         <Create>
-            <SimpleForm>
-                <ReferenceInput source="account_id" reference="accounts" />
-                <ReferenceInput source="property_id" reference="properties" />
-                <TextInput source="name" />
-                <TextInput source="visitor_type" />
+            <SimpleForm sanitizeEmptyValues={true}>
+                <ReferenceInput source="account_id" reference="accounts" >
+                    <SelectInput optionText="name" validate={[required("ra.validation.account")]} />
+                </ReferenceInput>
+                <FilteredPropertiesInput />
+                <TextInput source="name" validate={[required("ra.validation.name")]} />
+                <SelectInput source="visitor_type"
+                             choices={visitor_types}
+                             validate={[required("ra.validation.visitor_type")]}
+                />
                 <TextInput source="identity_doc_photo" />
                 <TextInput source="plate" />
                 <TextInput source="plate_photo" />
-                <ArrayInput source="access_schedule.days" >
-                    <SimpleFormIterator inline>
-                        <TextInput />
-                    </SimpleFormIterator>
-                </ArrayInput>
+                <SelectArrayInput source="access_schedule.days" choices={daysOfWeek} />
                 <TextInput source="access_schedule.hours.entrance" />
                 <TextInput source="access_schedule.hours.exit" />
                 

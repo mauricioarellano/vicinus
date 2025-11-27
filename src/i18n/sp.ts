@@ -1,5 +1,4 @@
 import spanishMessages from "@blackbox-vision/ra-language-spanish";
-import { email } from "react-admin";
 
 export default {
     ...spanishMessages,
@@ -14,6 +13,24 @@ export default {
         action: {
             ...spanishMessages.ra?.action,
             sign_in: "Iniciar sesión",
+        },
+        validation: {
+            ...spanishMessages.ra.validation,
+            account: "La cuenta es obligatoria",
+            property: "La propiedad es obligatoria",
+            email: "Debe ser una dirección de correo electrónico válida",
+            name: "El nombre es obligatorio",
+            condo_type: "El tipo de condominio es obligatorio",
+            property_type: "El tipo de propiedad es obligatorio",
+            period_year: "El año del período es obligatorio",
+            period_month: "El mes del período es obligatorio",
+            amount: "La cantidad es obligatoria",
+            status: "El estado es obligatorio",
+            visitor_type: "El tipo de visitante es obligatorio",
+            entrance_date: "La hora de entrada es obligatoria",
+            exit_date: "La hora de salida es obligatoria",
+            phone: "El teléfono es obligatorio",
+            username: "El nombre de usuario es obligatorio",
         },
     },
     resources: {
@@ -71,12 +88,33 @@ export default {
                 street: 'Calle',
             },
         },
+        property_types: {
+            apartment: 'Departamento',
+            house: 'Casa',
+            condo: 'Condominio',
+            building: 'Edificio',
+            duplex: 'Dúplex',
+            studio: 'Estudio',
+            loft: 'Ático',
+            villa: 'Villa',
+            cottage: 'Cabaña',
+            bungalow: 'Bungaló',
+        },
+        fee_statuses: {
+            pending: 'Pendiente',
+            paid: 'Pagado',
+            overdue: 'Atrasado',
+            validated: 'Validado',
+        },
         residents: {
             name: 'Residente |||| Residentes',
             fields: {
                 account_id: 'Cuenta',
                 property_id: 'Propiedad',
-                user_id: 'Usuario',
+                name: 'Nombre',
+                phone: 'Teléfono',
+                email: 'Correo electrónico',
+                photo: 'Foto',
             },
         },
         recurrent_visitors: {
@@ -141,7 +179,21 @@ export default {
                 visitor_type: 'Tipo de visitante',
             },
         },
-
+        visitor_types: {
+            guest: 'Invitado',
+            service: 'Servicio',
+            delivery: 'Entrega',
+            other: 'Otro',
+        },
+        days: {
+            Monday: 'Lunes',
+            Tuesday: 'Martes',
+            Wednesday: 'Miércoles',
+            Thursday: 'Jueves',
+            Friday: 'Viernes',
+            Saturday: 'Sábado',
+            Sunday: 'Domingo',
+        },
     },
     
 };
