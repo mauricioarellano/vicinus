@@ -5,8 +5,8 @@ import { PermissionsLoading } from '../components/PermissionsLoading';
 
 
 const property_types = [
-    { id: 'apartment', name: 'Departamento' },
-    { id: 'house', name: 'Casa' },
+    { id: 'apartment', name: 'resources.property_types.apartment' },
+    { id: 'house', name: 'resources.property_types.house' },
 ];
 
 const PageTitle = () => {
@@ -59,6 +59,7 @@ export const PropertyShow = () => {
     return (
         <Show title={<PageTitle />} >
             <SimpleShowLayout>
+                <ReferenceField source="account_id" reference="accounts" />
                 <TextField source="name" />
                 <TextField source="family_name" />
                 <TextField source="street" />
@@ -66,9 +67,6 @@ export const PropertyShow = () => {
                 <SelectField source="property_type" 
                              choices={property_types}
                 />
-                <ReferenceField source="account_id" reference="accounts" />
-                <ReferenceField source="owner_user_id" reference="users" />
-                
             </SimpleShowLayout>
         </Show>
     );
@@ -99,7 +97,6 @@ export const PropertyEdit = () => {
                 <TextInput source="family_name" />
                 <TextInput source="street" />
                 <TextInput source="int_number" />
-
             </SimpleForm>
         </Edit>
     );

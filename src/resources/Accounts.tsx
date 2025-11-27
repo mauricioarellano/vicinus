@@ -1,7 +1,12 @@
-import { Create, DataTable, Edit, EmailField, List, required, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, UrlField, useRecordContext } from 'react-admin';
+import { Create, DataTable, Edit, EmailField, List, required, SelectField, SelectInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, UrlField, useRecordContext, useTranslate } from 'react-admin';
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import { usePermissions } from '../hooks/usePermissions';
 import { PermissionsLoading } from '../components/PermissionsLoading';
+
+const property_types = [
+    { id: 'condo', name: 'resources.property_types.condo' },
+    { id: 'building', name: 'resources.property_types.building' },
+];
 
 const PageTitle = () => {
     const record = useRecordContext();
@@ -11,6 +16,8 @@ const PageTitle = () => {
 export const AccountList = () => {
     const { canAccess } = usePermissions();
     const hasAccess = canAccess('accounts', 'list');
+    const translate = useTranslate();
+
     
     if (hasAccess === undefined) {
         return <PermissionsLoading />;
@@ -23,7 +30,7 @@ export const AccountList = () => {
         <List>
             <DataTable>
                 <DataTable.Col source="name" />
-                <DataTable.Col source="condo_type" />
+                <DataTable.Col source="condo_type" render={record => translate(`resources.property_types.${record.condo_type}`)}/>
                 <DataTable.Col source="website" />
                 <DataTable.Col source="email">
                     <EmailField source="email" />
@@ -48,7 +55,7 @@ export const AccountShow = () => {
         <Show title={<PageTitle />} >
             <SimpleShowLayout>
                 <TextField source="name" />
-                <TextField source="condo_type" />
+                <SelectField source="condo_type" choices={property_types}/>
                 <TextField source="address.street" />
                 <TextField source="address.number" />
                 <TextField source="address.neighborhood" />
@@ -78,7 +85,10 @@ export const AccountEdit = () => {
         <Edit title={<PageTitle />} >
             <SimpleForm sanitizeEmptyValues={true}>
                 <TextInput source="name" />
-                <TextInput source="condo_type" />
+                <SelectInput source="condo_type"
+                             choices={property_types}
+                             validate={[required("ra.validation.condo_type")]}
+                />
                 <TextInput source="address.street" defaultValue={''} />
                 <TextInput source="address.number" defaultValue={''} />
                 <TextInput source="address.neighborhood" defaultValue={''} />
@@ -108,7 +118,10 @@ export const AccountCreate = () => {
         <Create>
             <SimpleForm sanitizeEmptyValues={true}>
                 <TextInput source="name" validate={[required("ra.validation.name")]} />
-                <TextInput source="condo_type" validate={[required("ra.validation.condo_type")]} />
+                <SelectInput source="condo_type"
+                             choices={property_types}
+                             validate={[required("ra.validation.condo_type")]}
+                />
                 <TextInput source="address.street" defaultValue={''} />
                 <TextInput source="address.number" defaultValue={''} />
                 <TextInput source="address.neighborhood" defaultValue={''} />
