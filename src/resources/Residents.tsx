@@ -1,5 +1,5 @@
 import { Create, DataTable, Edit, EmailField, List, ReferenceField, ReferenceInput, required, SelectInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput } from 'react-admin';
-import { useWatch } from 'react-hook-form';
+import FilteredPropertiesInput from "../components/FilteredPropertiesInput";
 import { usePermissions } from '../hooks/usePermissions';
 import { PermissionsLoading } from '../components/PermissionsLoading';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -62,22 +62,6 @@ export const ResidentShow = () => {
         </Show>
     );
 };
-
-const FilteredPropertiesInput = (props: any) => {
-    const accountId = useWatch({ name: 'account_id' }); // Watch the account_id field
-
-    return (
-        <ReferenceInput
-            source="property_id"
-            reference="properties"
-            filter={accountId ? { account_id: accountId } : {}} // Apply filter if accountId exists
-            {...props}
-        >
-            <SelectInput optionText="name" validate={[required("ra.validation.property")]} />
-        </ReferenceInput>
-    );
-};
-
 
 export const ResidentEdit = () => {
     const { canAccess } = usePermissions();

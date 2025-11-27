@@ -26,6 +26,7 @@ export default {
             period_month: "El mes del período es obligatorio",
             amount: "La cantidad es obligatoria",
             status: "El estado es obligatorio",
+            visitor_type: "El tipo de visitante es obligatorio",
         },
     },
     resources: {
@@ -95,7 +96,7 @@ export default {
             cottage: 'Cabaña',
             bungalow: 'Bungaló',
         },
-        property_statuses: {
+        fee_statuses: {
             pending: 'Pendiente',
             paid: 'Pagado',
             overdue: 'Atrasado',
@@ -173,6 +174,12 @@ export default {
                 recurrent_visitor_id: 'Visitante recurrente',
                 visitor_type: 'Tipo de visitante',
             },
+        },
+        visitor_types: {
+            guest: 'Invitado',
+            service: 'Servicio',
+            delivery: 'Entrega',
+            other: 'Otro',
         },
 
     },

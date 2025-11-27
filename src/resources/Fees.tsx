@@ -23,13 +23,13 @@ import {
 import { usePermissions } from "../hooks/usePermissions";
 import { PermissionsLoading } from "../components/PermissionsLoading";
 import PaymentsIcon from '@mui/icons-material/Payments';
-import { useWatch } from "react-hook-form";
+import FilteredPropertiesInput from "../components/FilteredPropertiesInput";
 
 const fee_statuses = [
-  { id: "pending", name: "resources.property_statuses.pending" },
-  { id: "paid", name: "resources.property_statuses.paid" },
-  { id: "overdue", name: "resources.property_statuses.overdue" },
-  { id: "validated", name: "resources.property_statuses.validated" },
+  { id: "pending", name: "resources.fee_statuses.pending" },
+  { id: "paid", name: "resources.fee_statuses.paid" },
+  { id: "overdue", name: "resources.fee_statuses.overdue" },
+  { id: "validated", name: "resources.fee_statuses.validated" },
 ];
 
 const PageTitle = () => {
@@ -65,7 +65,7 @@ export const FeeList = () => {
         <DataTable.Col source="period_month" />
         <DataTable.NumberCol source="amount" />
         <DataTable.Col source="status" 
-                       render={record => translate(`resources.property_statuses.${record.status}`)}
+                       render={record => translate(`resources.fee_statuses.${record.status}`)}
         />
         <DataTable.Col source="payment_date">
           <DateField source="payment_date" />
@@ -105,21 +105,6 @@ export const FeeShow = () => {
       </SimpleShowLayout>
     </Show>
   );
-};
-
-const FilteredPropertiesInput = (props: any) => {
-    const accountId = useWatch({ name: 'account_id' }); // Watch the account_id field
-
-    return (
-        <ReferenceInput
-            source="property_id"
-            reference="properties"
-            filter={accountId ? { account_id: accountId } : {}} // Apply filter if accountId exists
-            {...props}
-        >
-            <SelectInput optionText="name" validate={[required("ra.validation.property")]} />
-        </ReferenceInput>
-    );
 };
 
 export const FeeEdit = () => {

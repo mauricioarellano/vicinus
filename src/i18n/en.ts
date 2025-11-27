@@ -26,6 +26,33 @@ export default {
             period_month: "The period month is required",
             amount: "The amount is required",
             status: "The status is required",
+            visitor_type: "The visitor type is required",
+        },
+    },
+    resources: {
+        property_types: {
+            apartment: 'Apartment',
+            house: 'House',
+            condo: 'Condo',
+            building: 'Building',
+            duplex: 'Duplex',
+            studio: 'Studio',
+            loft: 'Loft',
+            villa: 'Villa',
+            cottage: 'Cottage',
+            bungalow: 'Bungalow',
+        },
+        fee_statuses: {
+            pending: 'Pending',
+            paid: 'Paid',
+            overdue: 'Overdue',
+            validated: 'Validated',
+        },
+        visitor_types: {
+            guest: 'Guest',
+            service: 'Service',
+            delivery: 'Delivery',
+            other: 'Other',
         },
     },
 };
