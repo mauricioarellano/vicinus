@@ -27,6 +27,8 @@ export default {
             amount: "The amount is required",
             status: "The status is required",
             visitor_type: "The visitor type is required",
+            entrance_date: "The entrance date is required",
+            exit_date: "The exit date is required",
         },
     },
     resources: {

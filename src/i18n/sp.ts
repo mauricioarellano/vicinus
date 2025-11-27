@@ -27,6 +27,8 @@ export default {
             amount: "La cantidad es obligatoria",
             status: "El estado es obligatorio",
             visitor_type: "El tipo de visitante es obligatorio",
+            entrance_date: "La hora de entrada es obligatoria",
+            exit_date: "La hora de salida es obligatoria",
         },
     },
     resources: {

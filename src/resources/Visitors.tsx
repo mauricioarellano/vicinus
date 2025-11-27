@@ -175,7 +175,7 @@ export const VisitorCreate = () => {
         <TextInput source="identity_doc_photo" />
         <TextInput source="plate" />
         <TextInput source="plate_photo" />
-        <DateTimeInput source="entrance_date" />
+        <DateTimeInput source="entrance_date" validate={[required("ra.validation.entrance_date")]} />
         <DateTimeInput source="exit_date" />
         <ReferenceInput
           source="recurrent_visitor_id"
