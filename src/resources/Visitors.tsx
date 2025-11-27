@@ -22,6 +22,7 @@ import CarCrashIcon from "@mui/icons-material/CarCrash";
 import { usePermissions } from "../hooks/usePermissions";
 import { PermissionsLoading } from "../components/PermissionsLoading";
 import FilteredPropertiesInput from "../components/FilteredPropertiesInput";
+import FilteredRecurrentVisitorsInput from "../components/FilteredRecurrentVisitorsInput";
 
 const visitor_types = [
   { id: "guest", name: "resources.visitor_types.guest" },
@@ -140,10 +141,7 @@ export const VisitorEdit = () => {
         <TextInput source="plate_photo" />
         <DateTimeInput source="entrance_date" />
         <DateTimeInput source="exit_date" />
-        <ReferenceInput
-          source="recurrent_visitor_id"
-          reference="recurrent_visitors"
-        />
+        <FilteredRecurrentVisitorsInput />
       </SimpleForm>
     </Edit>
   );
@@ -177,10 +175,7 @@ export const VisitorCreate = () => {
         <TextInput source="plate_photo" />
         <DateTimeInput source="entrance_date" validate={[required("ra.validation.entrance_date")]} />
         <DateTimeInput source="exit_date" />
-        <ReferenceInput
-          source="recurrent_visitor_id"
-          reference="recurrent_visitors"
-        />
+        <FilteredRecurrentVisitorsInput />
       </SimpleForm>
     </Create>
   );
