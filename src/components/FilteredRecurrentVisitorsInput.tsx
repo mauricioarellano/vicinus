@@ -1,4 +1,4 @@
-import { ReferenceInput, SelectInput, required } from 'react-admin';
+import { ReferenceInput, SelectInput } from 'react-admin';
 import { useWatch } from 'react-hook-form';
 
 const FilteredRecurrentVisitorsInput = (props: any) => {
