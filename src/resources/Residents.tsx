@@ -26,7 +26,7 @@ export const ResidentList = () => {
                 <DataTable.Col source="property_id">
                     <ReferenceField source="property_id" reference="properties" />
                 </DataTable.Col>
-                <TextField source="name" />
+                <DataTable.Col source="name" />
                 <DataTable.Col source="phone" />
                 <DataTable.Col source="email">
                     <EmailField source="email" />
@@ -92,7 +92,7 @@ export const ResidentEdit = () => {
     
     return (
         <Edit>
-            <SimpleForm>
+            <SimpleForm sanitizeEmptyValues={true}>
                 <ReferenceInput source="account_id" reference="accounts" >
                     <SelectInput optionText="name" />
                 </ReferenceInput>
@@ -119,7 +119,7 @@ export const ResidentCreate = (props: JSX.IntrinsicAttributes & CreateProps<any,
     
     return (
         <Create {...props}>
-            <SimpleForm>
+            <SimpleForm sanitizeEmptyValues={true}>
                 <ReferenceInput source="account_id" reference="accounts" >
                     <SelectInput optionText="name" />
                 </ReferenceInput>
