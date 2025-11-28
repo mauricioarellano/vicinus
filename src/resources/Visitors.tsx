@@ -36,6 +36,20 @@ const PageTitle = () => {
   return <span>{record ? `${record.name}` : ""}</span>;
 };
 
+const filters = [
+  <ReferenceInput source="account_id" reference="accounts" label="resources.visitors.filters.account" >
+      <SelectInput optionText="name"/>
+  </ReferenceInput>,
+  <ReferenceInput source="property_id" reference="properties" label="resources.visitors.filters.property" >
+      <SelectInput optionText="name"/>
+  </ReferenceInput>,
+  <TextInput source="name" label="resources.visitors.filters.name" />,
+  <SelectInput source="visitor_type" choices={visitor_types} label="resources.visitors.filters.visitor_type" />,
+  <TextInput source="plate" label="resources.visitors.filters.plate" />,
+  <DateTimeInput source="entrance_date" label="resources.visitors.filters.entrance_date" />,
+  <DateTimeInput source="exit_date" label="resources.visitors.filters.exit_date" />
+];
+
 export const VisitorList = () => {
   const translate = useTranslate();
   const { canAccess } = usePermissions();
@@ -49,7 +63,7 @@ export const VisitorList = () => {
   }
 
   return (
-    <List>
+    <List filters={filters}>
       <DataTable>
         <DataTable.Col source="account_id">
           <ReferenceField source="account_id" reference="accounts" />

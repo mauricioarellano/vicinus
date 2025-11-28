@@ -68,6 +68,17 @@ export default {
                 property: 'Property',
             },
         },
+        visitors: {
+            filters: {
+                account: 'Account',
+                property: 'Property',
+                name: 'Name',
+                visitor_type: 'Visitor Type',
+                plate: 'Plate',
+                entrance_date: 'Entrance Date',
+                exit_date: 'Exit Date',
+            },
+        },
         property_types: {
             apartment: 'Apartment',
             house: 'House',

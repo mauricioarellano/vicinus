@@ -205,6 +205,15 @@ export default {
                 recurrent_visitor_id: 'Visitante recurrente',
                 visitor_type: 'Tipo de visitante',
             },
+            filters: {
+                account: 'Cuenta',
+                property: 'Propiedad',
+                name: 'Nombre',
+                visitor_type: 'Tipo de visitante',
+                plate: 'Placa',
+                entrance_date: 'Fecha de entrada',
+                exit_date: 'Fecha de salida',
+            },
         },
         visitor_types: {
             guest: 'Invitado',
