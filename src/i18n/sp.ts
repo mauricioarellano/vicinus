@@ -129,6 +129,13 @@ export default {
                 email: 'Correo electrónico',
                 photo: 'Foto',
             },
+            filters: {
+                name: 'Nombre',
+                phone: 'Teléfono',
+                email: 'Correo electrónico',
+                account: 'Cuenta',
+                property: 'Propiedad',
+            },
         },
         recurrent_visitors: {
             name: 'Visitante recurrente |||| Visitantes recurrentes',

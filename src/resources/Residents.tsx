@@ -6,6 +6,18 @@ import GroupsIcon from '@mui/icons-material/Groups';
 
 const icon = GroupsIcon;
 
+const filters = [
+    <TextInput source="name" label="resources.residents.filters.name" />,
+    <TextInput source="phone" label="resources.residents.filters.phone" />,
+    <TextInput source="email" label="resources.residents.filters.email" />,
+    <ReferenceInput source="account_id" reference="accounts" label="resources.residents.filters.account" >
+        <SelectInput optionText="name"/>
+    </ReferenceInput>,
+    <ReferenceInput source="property_id" reference="properties" label="resources.residents.filters.property" alwaysOn={true} >
+        <SelectInput optionText="name"/>
+    </ReferenceInput>,
+];
+
 export const ResidentList = () => {
     const { canAccess } = usePermissions();
     const hasAccess = canAccess('residents', 'list');
@@ -18,7 +30,7 @@ export const ResidentList = () => {
     }
     
     return (
-        <List>
+        <List filters={filters}>
             <DataTable>
                 <DataTable.Col source="account_id">
                     <ReferenceField source="account_id" reference="accounts" />

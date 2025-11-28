@@ -50,6 +50,15 @@ export default {
                 account: 'Account',
             },
         },
+        residents: {
+            filters: {
+                name: 'Name',
+                phone: 'Phone',
+                email: 'Email',
+                account: 'Account',
+                property: 'Property',
+            },
+        },
         property_types: {
             apartment: 'Apartment',
             house: 'House',
