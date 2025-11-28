@@ -8,6 +8,15 @@ const PageTitle = () => {
     return <span>{record ? `${record.name}` : ''}</span>;
 }
 
+const filters = [
+    <ReferenceInput source="account_id" reference="accounts" label="resources.users.filters.account" >
+        <SelectInput optionText="name"/>
+    </ReferenceInput>,
+    <TextInput source="name" label="resources.users.filters.name" />,
+    <TextInput source="email" label="resources.users.filters.email" />,
+    <TextInput source="phone" label="resources.users.filters.phone" />,
+];
+
 export const UserList = () => {
     const { canAccess } = usePermissions();
     const hasAccess = canAccess('users', 'list');
@@ -20,13 +29,12 @@ export const UserList = () => {
     }
     
     return (
-        <List>
+        <List filters={filters}>
             <DataTable>
                 <DataTable.Col source="name" />
                 <DataTable.Col source="account_id">
                     <ReferenceField source="account_id" reference="accounts" />
                 </DataTable.Col>
-                <DataTable.Col source="username" />
                 
                 <DataTable.Col source="address.street" />
                 
@@ -59,7 +67,6 @@ export const UserShow = () => {
         <Show title={<PageTitle />}>
             <SimpleShowLayout>
             <TextField source="name" />
-            <TextField source="username" />
             <ReferenceField source="account_id" reference="accounts" />
             
             <TextField source="phone" />

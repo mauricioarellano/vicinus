@@ -68,6 +68,14 @@ export default {
                 property: 'Property',
             },
         },
+        users: {
+            filters: {
+                account: 'Account',
+                name: 'Name',
+                email: 'Email',
+                phone: 'Phone',
+            },
+        },
         visitors: {
             filters: {
                 account: 'Account',

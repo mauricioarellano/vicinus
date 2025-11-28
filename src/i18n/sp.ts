@@ -190,6 +190,12 @@ export default {
                 username: 'Nombre de usuario',
                 website: 'Sitio web',
             },
+            filters: {
+                account: 'Cuenta',
+                name: 'Nombre',
+                email: 'Correo electrónico',
+                phone: 'Teléfono',
+            },
         },
         visitors: {
             name: 'Visitante |||| Visitantes',
