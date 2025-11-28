@@ -13,6 +13,7 @@ export default {
         action: {
             ...spanishMessages.ra?.action,
             sign_in: "Iniciar sesión",
+            search: "Buscar",
         },
         validation: {
             ...spanishMessages.ra.validation,
@@ -86,6 +87,13 @@ export default {
                 property_type: 'Tipo de propiedad',
                 owner_user_id: 'Propietario',
                 street: 'Calle',
+            },
+            filters: {
+                name: 'Nombre',
+                family_name: 'Familia',
+                street: 'Calle',
+                property_type: 'Tipo de propiedad',
+                account: 'Cuenta',
             },
         },
         property_types: {

@@ -34,6 +34,15 @@ export default {
         },
     },
     resources: {
+        properties: {
+            filters: {
+                name: 'Name',
+                family_name: 'Family Name',
+                street: 'Street',
+                property_type: 'Property Type',
+                account: 'Account',
+            },
+        },
         property_types: {
             apartment: 'Apartment',
             house: 'House',
