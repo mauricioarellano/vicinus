@@ -1,4 +1,4 @@
-import { Create, DataTable, Edit, EmailField, List, ReferenceInput, required, SelectField, SelectInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, UrlField, useRecordContext, useTranslate } from 'react-admin';
+import { Create, DataTable, Edit, EmailField, List, required, SelectField, SelectInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, UrlField, useRecordContext, useTranslate } from 'react-admin';
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import { usePermissions } from '../hooks/usePermissions';
 import { PermissionsLoading } from '../components/PermissionsLoading';
