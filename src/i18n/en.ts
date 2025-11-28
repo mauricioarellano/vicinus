@@ -34,6 +34,59 @@ export default {
         },
     },
     resources: {
+        accounts: {
+            filters: {
+                name: 'Name',
+                condo_type: 'Condo Type',
+                email: 'Email',
+            },
+        },
+        properties: {
+            filters: {
+                name: 'Name',
+                family_name: 'Family Name',
+                street: 'Street',
+                property_type: 'Property Type',
+                account: 'Account',
+            },
+        },
+        residents: {
+            filters: {
+                name: 'Name',
+                phone: 'Phone',
+                email: 'Email',
+                account: 'Account',
+                property: 'Property',
+            },
+        },
+        fees: {
+            filters: {
+                period_year: 'Period Year',
+                period_month: 'Period Month',
+                status: 'Status',
+                account: 'Account',
+                property: 'Property',
+            },
+        },
+        users: {
+            filters: {
+                account: 'Account',
+                name: 'Name',
+                email: 'Email',
+                phone: 'Phone',
+            },
+        },
+        visitors: {
+            filters: {
+                account: 'Account',
+                property: 'Property',
+                name: 'Name',
+                visitor_type: 'Visitor Type',
+                plate: 'Plate',
+                entrance_date: 'Entrance Date',
+                exit_date: 'Exit Date',
+            },
+        },
         property_types: {
             apartment: 'Apartment',
             house: 'House',

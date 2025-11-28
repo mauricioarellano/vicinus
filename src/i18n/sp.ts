@@ -13,6 +13,7 @@ export default {
         action: {
             ...spanishMessages.ra?.action,
             sign_in: "Iniciar sesión",
+            search: "Buscar",
         },
         validation: {
             ...spanishMessages.ra.validation,
@@ -50,6 +51,11 @@ export default {
                 name: 'Nombre',
                 website: 'Sitio web',
             },
+            filters: {
+                name: 'Nombre',
+                condo_type: 'Tipo de condominio',
+                email: 'Correo electrónico',
+            },
         },
         fees: {
             name: 'Cuota |||| Cuotas',
@@ -64,6 +70,13 @@ export default {
                 account_id: 'Cuenta',
                 property_id: 'Propiedad',
                 user_id: 'Usuario',
+            },
+            filters: {
+                period_year: 'Año del período',
+                period_month: 'Mes del período',
+                status: 'Estado',
+                account: 'Cuenta',
+                property: 'Propiedad',
             },
         },
         fee_amounts: {
@@ -86,6 +99,13 @@ export default {
                 property_type: 'Tipo de propiedad',
                 owner_user_id: 'Propietario',
                 street: 'Calle',
+            },
+            filters: {
+                name: 'Nombre',
+                family_name: 'Familia',
+                street: 'Calle',
+                property_type: 'Tipo de propiedad',
+                account: 'Cuenta',
             },
         },
         property_types: {
@@ -115,6 +135,13 @@ export default {
                 phone: 'Teléfono',
                 email: 'Correo electrónico',
                 photo: 'Foto',
+            },
+            filters: {
+                name: 'Nombre',
+                phone: 'Teléfono',
+                email: 'Correo electrónico',
+                account: 'Cuenta',
+                property: 'Propiedad',
             },
         },
         recurrent_visitors: {
@@ -163,6 +190,12 @@ export default {
                 username: 'Nombre de usuario',
                 website: 'Sitio web',
             },
+            filters: {
+                account: 'Cuenta',
+                name: 'Nombre',
+                email: 'Correo electrónico',
+                phone: 'Teléfono',
+            },
         },
         visitors: {
             name: 'Visitante |||| Visitantes',
@@ -177,6 +210,15 @@ export default {
                 property_id: 'Propiedad',
                 recurrent_visitor_id: 'Visitante recurrente',
                 visitor_type: 'Tipo de visitante',
+            },
+            filters: {
+                account: 'Cuenta',
+                property: 'Propiedad',
+                name: 'Nombre',
+                visitor_type: 'Tipo de visitante',
+                plate: 'Placa',
+                entrance_date: 'Fecha de entrada',
+                exit_date: 'Fecha de salida',
             },
         },
         visitor_types: {

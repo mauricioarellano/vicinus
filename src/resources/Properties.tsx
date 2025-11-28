@@ -14,6 +14,20 @@ const PageTitle = () => {
     return <span>{record ? `${record.name}` : ''}</span>;
 }
 
+const filters = [
+    <TextInput source="name" label="resources.properties.filters.name" />,
+    <TextInput source="family_name" label="resources.properties.filters.family_name" />,
+    <TextInput source="street" label="resources.properties.filters.street" />,
+    <SelectInput
+        source="property_type"
+        label="resources.properties.filters.property_type"
+        choices={property_types}
+    />,
+    <ReferenceInput source="account_id" reference="accounts" label="resources.properties.filters.account" alwaysOn={true} >
+        <SelectInput optionText="name"/>
+    </ReferenceInput>,
+];
+
 export const PropertyList = () => {
     const { canAccess } = usePermissions();
     const hasAccess = canAccess('properties', 'list');
@@ -28,7 +42,10 @@ export const PropertyList = () => {
     }
     
     return (
-        <List>
+        <List
+            sort={{field: "name", order: "ASC"}}
+            filters={filters}
+        >
             <DataTable>
                 <DataTable.Col source="name" />
                 <DataTable.Col source="family_name" />

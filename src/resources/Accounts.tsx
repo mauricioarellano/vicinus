@@ -13,6 +13,16 @@ const PageTitle = () => {
     return <span>{record ? `${record.name}` : ''}</span>;
 }
 
+const filters = [
+    <TextInput source="name" label="resources.accounts.filters.name" alwaysOn={true}/>,
+    <SelectInput
+        source="condo_type"
+        label="resources.accounts.filters.condo_type"
+        choices={property_types}
+    />,
+    <TextInput source="email" label="resources.accounts.filters.email" />,
+];
+
 export const AccountList = () => {
     const { canAccess } = usePermissions();
     const hasAccess = canAccess('accounts', 'list');
@@ -27,7 +37,7 @@ export const AccountList = () => {
     }
     
     return (
-        <List>
+        <List filters={filters}>
             <DataTable>
                 <DataTable.Col source="name" />
                 <DataTable.Col source="condo_type" render={record => translate(`resources.property_types.${record.condo_type}`)}/>
