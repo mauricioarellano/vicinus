@@ -51,6 +51,11 @@ export default {
                 name: 'Nombre',
                 website: 'Sitio web',
             },
+            filters: {
+                name: 'Nombre',
+                condo_type: 'Tipo de condominio',
+                email: 'Correo electrónico',
+            },
         },
         fees: {
             name: 'Cuota |||| Cuotas',

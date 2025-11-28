@@ -1,4 +1,4 @@
-import { Create, DataTable, Edit, EmailField, List, required, SelectField, SelectInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, UrlField, useRecordContext, useTranslate } from 'react-admin';
+import { Create, DataTable, Edit, EmailField, List, ReferenceInput, required, SelectField, SelectInput, Show, SimpleForm, SimpleShowLayout, TextField, TextInput, UrlField, useRecordContext, useTranslate } from 'react-admin';
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import { usePermissions } from '../hooks/usePermissions';
 import { PermissionsLoading } from '../components/PermissionsLoading';
@@ -12,6 +12,16 @@ const PageTitle = () => {
     const record = useRecordContext();
     return <span>{record ? `${record.name}` : ''}</span>;
 }
+
+const filters = [
+    <TextInput source="name" label="resources.accounts.filters.name" alwaysOn={true}/>,
+    <SelectInput
+        source="condo_type"
+        label="resources.accounts.filters.condo_type"
+        choices={property_types}
+    />,
+    <TextInput source="email" label="resources.accounts.filters.email" />,
+];
 
 export const AccountList = () => {
     const { canAccess } = usePermissions();
@@ -27,7 +37,7 @@ export const AccountList = () => {
     }
     
     return (
-        <List>
+        <List filters={filters}>
             <DataTable>
                 <DataTable.Col source="name" />
                 <DataTable.Col source="condo_type" render={record => translate(`resources.property_types.${record.condo_type}`)}/>

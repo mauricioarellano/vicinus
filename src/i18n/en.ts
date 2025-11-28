@@ -34,6 +34,13 @@ export default {
         },
     },
     resources: {
+        accounts: {
+            filters: {
+                name: 'Name',
+                condo_type: 'Condo Type',
+                email: 'Email',
+            },
+        },
         properties: {
             filters: {
                 name: 'Name',
