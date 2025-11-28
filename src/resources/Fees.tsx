@@ -40,6 +40,18 @@ const PageTitle = () => {
   return <span>{title}</span>;
 };
 
+const filters = [
+  <TextInput source="period_year" label="resources.fees.filters.period_year" />,
+  <TextInput source="period_month" label="resources.fees.filters.period_month" />,
+  <SelectInput source="status" choices={fee_statuses} label="resources.fees.filters.status" />,
+  <ReferenceInput source="account_id" reference="accounts" label="resources.fees.filters.account" >
+      <SelectInput optionText="name"/>
+  </ReferenceInput>,
+  <ReferenceInput source="property_id" reference="properties" label="resources.fees.filters.property" alwaysOn={true} >
+      <SelectInput optionText="name"/>
+  </ReferenceInput>,
+];
+
 export const FeeList = () => {
   const translate = useTranslate();
   const { canAccess } = usePermissions();
@@ -53,7 +65,7 @@ export const FeeList = () => {
   }
 
   return (
-    <List>
+    <List filters={filters}>
       <DataTable>
         <DataTable.Col source="account_id">
           <ReferenceField source="account_id" reference="accounts" />

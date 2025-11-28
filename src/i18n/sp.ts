@@ -71,6 +71,13 @@ export default {
                 property_id: 'Propiedad',
                 user_id: 'Usuario',
             },
+            filters: {
+                period_year: 'Año del período',
+                period_month: 'Mes del período',
+                status: 'Estado',
+                account: 'Cuenta',
+                property: 'Propiedad',
+            },
         },
         fee_amounts: {
             name: 'Monto de cuota |||| Montos de cuota',

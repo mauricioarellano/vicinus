@@ -59,6 +59,15 @@ export default {
                 property: 'Property',
             },
         },
+        fees: {
+            filters: {
+                period_year: 'Period Year',
+                period_month: 'Period Month',
+                status: 'Status',
+                account: 'Account',
+                property: 'Property',
+            },
+        },
         property_types: {
             apartment: 'Apartment',
             house: 'House',
